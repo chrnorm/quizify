@@ -14,6 +14,7 @@ img.Artwork {
 
 .Track {
     position: relative;
+    transition: all 0.1s ease;
 }
 
 .TrackDetails {

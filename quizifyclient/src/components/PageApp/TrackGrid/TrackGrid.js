@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import update from 'immutability-helper';
 import Track from '../Track/Track';
 import './TrackGrid.css'
 
@@ -44,12 +45,47 @@ const SAMPLE_TRACKS = [
 class TrackGrid extends Component {
     constructor(props) {
         super(props);
+        let hidetracks = {}
+        SAMPLE_TRACKS.map((i) => {
+            hidetracks[i.id] = false
+        });
+        console.log(hidetracks)
+        
         this.state = {
-            showingNames: false
+            showingNames: false,
+            hide: hidetracks
         };
         setTimeout(() => {
             this.setState({showingNames: true});
         }, 4000);
+    }
+
+    handleClick = (clickedId) => {
+        this.setState({showingNames: false});
+        setTimeout(() => {
+            this.randomlyHideOtherTracks(clickedId);
+        }, 200);
+    }
+
+    // keep hiding tracks until only the correct one is left
+    randomlyHideOtherTracks = (correctId) => {
+        const hidetracks = Object.assign({}, this.state.hide);
+        Object.keys(hidetracks).map((i) => {
+            if (Number(i) === Number(correctId)) {
+                delete hidetracks[i]
+            } else if (hidetracks[i] === true) {
+                delete hidetracks[i]
+            }
+        });
+        const remainingKeys = Object.keys(hidetracks);
+        if(remainingKeys.length > 0) {
+            const keyToHide = remainingKeys[Math.floor(Math.random() * remainingKeys.length)];
+            const newHiddenState = update(this.state.hide, {[keyToHide]: {$set: true}});
+            this.setState({hide: newHiddenState});
+            setTimeout(() => {
+                this.randomlyHideOtherTracks(correctId);
+            }, 90);
+        }
     }
 
     
@@ -58,7 +94,7 @@ class TrackGrid extends Component {
             <div className="TracksWrapper">
                 {SAMPLE_TRACKS.map((i) => {
                     console.log(i);
-                    return(<Track info={i} key={i.id} showingNames={this.state.showingNames}/>)
+                    return (<Track info={i} key={i.id} showingNames={this.state.showingNames} hide={this.state.hide[i.id]} handleClick={this.handleClick}/>)
                 })}
             </div>
         );
