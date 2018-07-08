@@ -1,0 +1,23 @@
+.PageLandingWrapper {
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.BigLogo {
+    font-size: 4em;
+    margin-bottom: 44px;
+    color: white;
+}
+
+p.tagline {
+    font-size: 1.6em;
+    margin-top: 0;
+    margin-bottom: 226px;
+    color: white;
+}

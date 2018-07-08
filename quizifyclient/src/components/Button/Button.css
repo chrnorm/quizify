@@ -1,0 +1,23 @@
+.Button {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  -webkit-box-shadow: 0px 3px 6px #666666;
+  -moz-box-shadow: 0px 3px 6px #666666;
+  box-shadow: 0px 3px 6px #666666;
+  font-family: Arial;
+  color: #707070;
+  font-size: 20px;
+  background: #fff;
+  padding: 15px 23px 15px 23px;
+  text-decoration: none;
+  border: none;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.Button:hover {
+  background: #fafafa;
+  text-decoration: none;
+  cursor: pointer;
+}
