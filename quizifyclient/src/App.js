@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PageLanding from './components/PageLanding/PageLanding';
 import PageOnboarding from './components/PageOnboarding/PageOnboarding';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import PageApp from './components/PageApp/PageApp';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
 
 class App extends Component {
@@ -11,6 +12,7 @@ class App extends Component {
       <div className="App">
           <Route exact path="/" component={PageLanding} />
           <Route path="/start" component={PageOnboarding} />
+          <Route path="/app" component={PageApp} />
       </div>
       </Router>
     );

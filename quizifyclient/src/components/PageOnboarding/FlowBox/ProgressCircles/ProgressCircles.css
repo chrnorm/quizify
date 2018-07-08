@@ -1,0 +1,17 @@
+.selected {
+  background-color: #A1ACBF;
+}
+
+.dot {
+  height: 9px;
+  width: 9px;
+  border: 2px solid #A1ACBF;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 3px;
+}
+
+.ProgCircles {
+    position: absolute;
+    bottom: 0px;
+}

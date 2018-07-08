@@ -1,0 +1,11 @@
+.TracksWrapper {
+    display: grid;
+    height: 480px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 750px;
+    transform: translate(-50%, -50%);
+}

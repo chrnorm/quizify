@@ -1,0 +1,29 @@
+.OnboardingContents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.PlayButton {
+    border-radius: 28px;
+    font-family: Arial;
+    color: #fff;
+    margin-top: 40px;
+    font-size: 15px;
+    background: #00454B;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border: none;
+    text-transform: uppercase;
+    -webkit-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.PlayButton:hover {
+  background: rgb(2, 101, 110);
+  text-decoration: none;
+  cursor: pointer;
+}

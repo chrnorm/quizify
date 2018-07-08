@@ -1,0 +1,51 @@
+.FlowBox {
+    height: 40%;
+    width: 60%;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 25px;
+    transform: translate(-50%, -50%);
+    -webkit-box-shadow: 0px 3px 6px #666666;
+    -moz-box-shadow: 0px 3px 6px #666666;
+    box-shadow: 0px 3px 6px #666666;
+}
+
+.clickAnywhere {
+    cursor: pointer;
+}
+
+.ButtonArrow {
+    height: 50px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.ButtonForwards {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ButtonBack {
+    position: absolute;
+    left: 52px; /* hacky fix, TODO fix up SVG bounding boxes */
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ProgCircles {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.Contents {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
