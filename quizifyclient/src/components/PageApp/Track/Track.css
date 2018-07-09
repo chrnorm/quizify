@@ -2,7 +2,9 @@ img.Artwork {
     max-width: 100%;
     max-height:100%;
     transition: all 2s ease;
-    cursor: pointer;
+    -webkit-box-shadow: 0px 2px 6px rgba(30,30,30,0.4);
+    -moz-box-shadow: 0px 2px 6px rgba(30,30,30,0.4);
+    box-shadow: 0px 2px 6px rgba(30,30,30,0.4);
 }
 
 .dimmed {
@@ -13,8 +15,85 @@ img.Artwork {
 }
 
 .Track {
-    position: relative;
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     transition: all 0.1s ease;
+    height: 200px;
+    width: 200px;
+    display: inline-block;
+}
+
+.BigTrack {
+    cursor: default;
+    height: 300px;
+    width: 300px;
+}
+
+.Track.TrackPos-0 {
+    top: 0px;
+    left: 0px;
+}
+
+.SmallTrack:hover {
+    height: 208px;
+    width: 208px;
+}
+
+.Track.TrackPos-0:hover {
+    top: -4px;
+    left: -4px;
+}
+
+.Track.TrackPos-1 {
+    top: 0px;
+    left: 220px;
+}
+
+.Track.TrackPos-1:hover {
+    top: -4px;
+    left: 216px;
+}
+
+.Track.TrackPos-2 {
+    top: 0px;
+    left: 440px;
+}
+
+.Track.TrackPos-2:hover {
+    top: -4px;
+    left: 436px;
+}
+
+.Track.TrackPos-3 {
+    top: 220px;
+    left: 0px;
+}
+
+.Track.TrackPos-3:hover {
+    top: 216px;
+    left: -4px;
+}
+
+.Track.TrackPos-4 {
+    top: 220px;
+    left: 220px;
+}
+
+.Track.TrackPos-4:hover {
+    top: 216px;
+    left: 216px;
+}
+
+.Track.TrackPos-5 {
+    top: 220px;
+    left: 440px;
+}
+
+.Track.TrackPos-5:hover {
+    top: 216px;
+    left: 436px;
 }
 
 .TrackDetails {
@@ -28,6 +107,7 @@ img.Artwork {
     align-items: center;
     color: white;
     opacity: 1;
+    width: 80%;
 }
 
 .TrackArtist {
@@ -41,4 +121,6 @@ img.Artwork {
 
 .invisible {
     opacity: 0;
+    cursor: default;
+    transition: all 0.1s ease;
 }

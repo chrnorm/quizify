@@ -12,7 +12,7 @@ class PageLanding extends Component {
                 <GradientBackground />
                 <div className="BigLogo"><QuizifyLogo /></div>
                 <p className="tagline">Test how well you know your Spotify library.</p>
-                <Link to="/start"><Button className="playbutton">Play Now</Button></Link>
+                <Link style={{ textDecoration: 'none' }} to="/start"><Button className="playbutton">Play Now</Button></Link>
             </div>
         );
     }

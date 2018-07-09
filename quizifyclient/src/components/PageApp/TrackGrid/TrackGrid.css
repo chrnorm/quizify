@@ -1,11 +1,16 @@
 .TracksWrapper {
-    display: grid;
-    height: 480px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 40px;
+    display: block;
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 750px;
     transform: translate(-50%, -50%);
+    width: 660px;
+    height: 440px;
+    transition: all 0.1s ease;
+}
+
+.ShowingAnswer {
+    width: calc(300px + 20px + 300px);
+    height: 300px;
+    top: 45%;
 }

@@ -13,6 +13,8 @@
   border: none;
   text-transform: uppercase;
   transition: all 0.2s ease;
+  display: block;
+  margin: 0 auto;
 }
 
 .Button:hover {
