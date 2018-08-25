@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import GradientBackground from '../GradientBackground/GradientBackground';
-import NavBar from '../NavBar/NavBar';
-import './PageApp.css'
+import GradientBackground from '../../components/GradientBackground/GradientBackground';
+import NavBar from '../../components/NavBar/NavBar';
 import GridContainer from './GridContainer/GridContainer';
-
 
 class PageApp extends Component {
     render() {
@@ -13,7 +11,7 @@ class PageApp extends Component {
                 <NavBar />
                 <GridContainer />
             </div>
-        )
+        );
     }
 }
 
