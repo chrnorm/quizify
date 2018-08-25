@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import './QuizifyLogo.css'
+import React from 'react';
+import styled from 'styled-components';
 
-class QuizifyLogo extends Component {
-    render() {
-        return (
-            <div className="QuizifyLogo noselect">Quizify</div>
-        );
-    }
-}
+const QuizifyText = styled.div`
+    font-family: 'Montserrat', sans-serif;
+`;
+
+const QuizifyLogo = () => (
+    <QuizifyText className="noselect">Quizify</QuizifyText>
+);
 
 export default QuizifyLogo;

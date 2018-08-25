@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import FlowBox from './FlowBox/FlowBox';
 import NavBar from '../../components/NavBar/NavBar';
+
 import './PageOnboarding.css';
 
 class PageOnboarding extends Component {

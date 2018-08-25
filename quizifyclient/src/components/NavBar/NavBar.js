@@ -1,16 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import QuizifyLogo from '../QuizifyLogo/QuizifyLogo';
-import './NavBar.css'
 
-class NavBar extends Component {
-    render() {
-        return (
-            <div className="NavBar">
-                <Link to="/"><div className="NavLogo"><QuizifyLogo /></div></Link>
-            </div>
-        )
-    }
-}
+const NavBox = styled.div`
+    position: absolute;
+    height: 50px;
+    background-color: #00454b;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+`;
+
+const NavLogo = styled.div`
+    display: inline-block;
+    margin-left: 2.5%;
+    color: white;
+    font-size: 1.5em;
+`;
+
+const NavBar = () => (
+    <NavBox>
+        <Link to="/">
+            <NavLogo>
+                <QuizifyLogo />
+            </NavLogo>
+        </Link>
+    </NavBox>
+);
 
 export default NavBar;
