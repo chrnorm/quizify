@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import PageLanding from './screens/PageLanding/PageLanding';
@@ -8,20 +8,16 @@ import PageResults from './screens/PageResults/PageResults';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-class App extends Component {
-    render() {
-        return (
-            <Router>
-                <div className="App">
-                    <Route exact path="/" component={PageLanding} />
-                    <Route path="/start" component={PageOnboarding} />
-                    <Route path="/app" component={PageApp} />
-                    <Route path="/results" component={PageResults} />
-                </div>
-            </Router>
-        );
-    }
-}
+const App = () => (
+    <Router>
+        <div className="App">
+            <Route exact path="/" component={PageLanding} />
+            <Route path="/start" component={PageOnboarding} />
+            <Route path="/app" component={PageApp} />
+            <Route path="/results" component={PageResults} />
+        </div>
+    </Router>
+);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

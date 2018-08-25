@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import QuizifyLogo from '../../components/QuizifyLogo/QuizifyLogo';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
-import { Link } from 'react-router-dom';
+import API_URL from '../../util/apiAdapter';
 import Button from '../../components/Button/Button';
 import './PageLanding.css';
 
@@ -16,9 +16,11 @@ class PageLanding extends Component {
                 <p className="tagline">
                     Test how well you know your Spotify library.
                 </p>
-                <Link style={{ textDecoration: 'none' }} to="/start">
-                    <Button className="playbutton">Play Now</Button>
-                </Link>
+                <a style={{ textDecoration: 'none' }} href={`${API_URL}/login`}>
+                    <Button className="playbutton">
+                        Login With Spotify To Play
+                    </Button>
+                </a>
             </div>
         );
     }

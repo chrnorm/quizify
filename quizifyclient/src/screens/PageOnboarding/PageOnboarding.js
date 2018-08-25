@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import FlowBox from './FlowBox/FlowBox';
 import NavBar from '../../components/NavBar/NavBar';
-
 import './PageOnboarding.css';
 
 class PageOnboarding extends Component {
@@ -36,7 +35,6 @@ class PageOnboarding extends Component {
             case 2:
                 return (
                     <div className="OnboardingContents">
-                        <p>connect to Spotify to begin</p>
                         <Link to="/app">
                             <button className="PlayButton">Play Now</button>
                         </Link>
@@ -55,7 +53,6 @@ class PageOnboarding extends Component {
                 <FlowBox
                     num={3}
                     selected={this.state.selected}
-                    clickAnywhereToAdvance
                     clickHandler={this.clickHandler}
                 >
                     {this.renderFlowContents()}

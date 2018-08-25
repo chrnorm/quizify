@@ -89,7 +89,7 @@ router.get('/callback', (req, res) => {
 
                 getAllTracks(req.session);
 
-                res.sendStatus(200);
+                res.redirect('http://localhost:3000/start');
             })
             .catch(err => {
                 console.log(err);
