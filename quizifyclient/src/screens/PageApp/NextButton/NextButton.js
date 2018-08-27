@@ -1,56 +1,59 @@
-import React, { Component } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import { Spring } from 'react-spring';
 import Button from '../../../components/Button/Button';
-import './NextButton.css';
+import PropTypes from 'prop-types';
 
-class NextButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            buttonVisible: false,
-            textVisible: false
-        };
-    }
+const NextButtonWrapper = styled.div`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    bottom: 150px;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+`;
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({ buttonVisible: true });
-        }, 630);
-        setTimeout(() => {
-            this.setState({ textVisible: true });
-        }, 600);
-    }
+const AttemptsRemaining = styled.div`
+    color: white;
+    font-size: 1.4em;
+    margin: 30px auto;
+    -ms-transform: translate(-50%, 0);
+`;
 
-    renderAttemptText = () => {
-        const numlives = this.props.lives > 0 ? this.props.lives : 'No';
-        const attempts = `attempt${this.props.lives === 1 ? '' : 's'}`;
-        return `${numlives} ${attempts} remaining`;
-    };
+const renderAttemptText = lives => {
+    const numlives = lives > 0 ? lives : 'No';
+    const attempts = `attempt${lives === 1 ? '' : 's'}`;
+    return `${numlives} ${attempts} remaining`;
+};
 
-    render() {
-        const buttonText =
-            this.props.lives > 0 ? 'Next Song' : 'Get Your Results';
-        return (
-            <div className="NextButtonWrapper">
-                {this.props.selectedTrack !== this.props.correctTrack ? (
-                    <div
-                        className={`AttemptsRemaining ${
-                            this.state.textVisible ? 'visible' : ''
-                        }`}
-                    >
-                        {this.renderAttemptText()}
-                    </div>
-                ) : null}
-                <div
-                    onClick={this.props.onClick}
-                    className={`NextButton ${
-                        this.state.buttonVisible ? 'visible' : ''
-                    }`}
-                >
-                    <Button>{buttonText}</Button>
-                </div>
-            </div>
-        );
-    }
-}
+const NextButton = props => (
+    <NextButtonWrapper>
+        {props.correctAnswer === false ? (
+            <Spring delay={600} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+                {styles => (
+                    <AttemptsRemaining style={styles}>
+                        {renderAttemptText(props.lives)}
+                    </AttemptsRemaining>
+                )}
+            </Spring>
+        ) : null}
+        <Spring delay={630} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+            {styles => (
+                <Button style={styles} onClick={props.onClick}>
+                    {props.lives > 0 ? 'Next Song' : 'Get Your Results'}
+                </Button>
+            )}
+        </Spring>
+    </NextButtonWrapper>
+);
+
+NextButton.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    correctAnswer: PropTypes.bool.isRequired,
+    lives: PropTypes.number
+};
 
 export default NextButton;

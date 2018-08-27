@@ -1,7 +1,3 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import TrackGrid from '../TrackGrid/TrackGrid';
-
 const SAMPLE_TRACKS = [
     {
         id: 0,
@@ -92,55 +88,4 @@ const NEXT_TRACKS = [
     }
 ];
 
-class GridContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentTracks: SAMPLE_TRACKS,
-            correctTrack: null,
-            lives: 2,
-            getResults: false
-        };
-    }
-
-    onSelectTrack = id => {
-        const correct = 0; // TODO CHANGE THIS
-        console.log('track selected:', id);
-        if (id !== correct) {
-            const newlives = this.state.lives - 1;
-            if (newlives === 0) {
-                console.log('out of lives!!');
-            }
-            this.setState({ lives: newlives });
-        }
-        this.setState({ correctTrack: correct });
-    };
-
-    getNextScreen = () => {
-        if (this.state.lives === 0) {
-            this.setState({ getResults: true });
-        } else {
-            this.setState({
-                currentTracks: NEXT_TRACKS,
-                correctTrack: null
-            });
-        }
-    };
-
-    render() {
-        return (
-            <div>
-                <TrackGrid
-                    tracks={this.state.currentTracks}
-                    lives={this.state.lives}
-                    correctTrack={this.state.correctTrack}
-                    onSelectTrack={this.onSelectTrack}
-                    nextButtonPressed={this.getNextScreen}
-                />
-                {this.state.getResults ? <Redirect push to="/results" /> : null}
-            </div>
-        );
-    }
-}
-
-export default GridContainer;
+export { SAMPLE_TRACKS, NEXT_TRACKS };

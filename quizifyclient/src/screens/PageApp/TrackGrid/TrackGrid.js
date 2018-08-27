@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import update from 'immutability-helper';
 import Track from '../Track/Track';
 import './TrackGrid.css';
 import Answer from '../Answer/Answer';
-import NextButton from '../NextButton/NextButton';
 
 class TrackGrid extends Component {
     constructor(props) {
@@ -14,8 +13,8 @@ class TrackGrid extends Component {
         });
         this.state = {
             showingNames: false,
-            selectedTrack: null,
-            trackTransitionToAnswer: false,
+            selectedTrackId: null,
+            allowTrackSelection: true,
             hide: hidetracks,
             correctTrack: null,
             displayAnswerText: false
@@ -43,10 +42,10 @@ class TrackGrid extends Component {
         });
         this.setState({
             showingNames: false,
-            trackTransitionToAnswer: false,
+            allowTrackSelection: true,
             hide: hidetracks,
             correctTrack: null,
-            selectedTrack: null,
+            selectedTrackId: null,
             displayAnswerText: false
         });
         setTimeout(() => {
@@ -62,11 +61,11 @@ class TrackGrid extends Component {
     }
 
     handleClick = clickedId => {
-        if (this.state.trackTransitionToAnswer === false) {
+        if (this.state.allowTrackSelection === true) {
             this.setState({
                 showingNames: false,
-                trackTransitionToAnswer: true,
-                selectedTrack: clickedId
+                allowTrackSelection: false,
+                selectedTrackId: clickedId
             });
             this.props.onSelectTrack(clickedId);
         }
@@ -97,10 +96,10 @@ class TrackGrid extends Component {
     };
 
     // keep hiding tracks until only the correct one is left
-    randomlyHideOtherTracks = correctId => {
+    randomlyHideOtherTracks = correctTrack => {
         const hidetracks = Object.assign({}, this.state.hide);
         Object.keys(hidetracks).forEach(i => {
-            if (Number(i) === Number(correctId)) {
+            if (Number(i) === Number(correctTrack.id)) {
                 delete hidetracks[i];
             } else if (hidetracks[i] === true) {
                 delete hidetracks[i];
@@ -115,12 +114,12 @@ class TrackGrid extends Component {
             });
             this.setState({ hide: newHiddenState });
             setTimeout(() => {
-                this.randomlyHideOtherTracks(correctId);
+                this.randomlyHideOtherTracks(correctTrack);
             }, 60);
         } else {
             // only the correctId track is visible so make it big
             setTimeout(() => {
-                this.setState({ correctTrack: correctId });
+                this.setState({ correctTrack: correctTrack });
             }, 150);
             setTimeout(() => {
                 this.setState({ displayAnswerText: true });
@@ -128,27 +127,22 @@ class TrackGrid extends Component {
         }
     };
 
-    renderTracks = () => {
-        if (this.props.tracks) {
-            let tracks = [];
-            this.props.tracks.forEach((el, i) => {
-                tracks.push(
-                    <Track
-                        gridindex={i}
-                        bigTrack={
-                            this.state.correctTrack === el.id ? true : false
-                        }
-                        info={el}
-                        key={el.id}
-                        showingNames={this.state.showingNames}
-                        hide={this.state.hide[el.id]}
-                        handleClick={this.handleClick}
-                    />
-                );
-            });
-            return tracks;
-        }
-    };
+    renderTracks = () =>
+        this.props.tracks
+            ? this.props.tracks.map((el, i) => (
+                  <Track
+                      gridindex={i}
+                      //   bigTrack={
+                      //       this.state.correctTrack.id === el.id ? true : false
+                      //   }
+                      info={el}
+                      key={el.id}
+                      showingNames={this.state.showingNames}
+                      hide={this.state.hide[el.id]}
+                      handleClick={this.handleClick}
+                  />
+              ))
+            : null;
 
     nextButtonPressed = () => {
         setTimeout(() => {
@@ -166,61 +160,11 @@ class TrackGrid extends Component {
         }, 300);
     };
 
-    getCorrectTrackDetails = () => {
-        const correctTrackDetails = this.props.tracks.find(el => {
-            return el.id === this.props.correctTrack;
-        });
-        return correctTrackDetails;
-    };
-
-    renderBottomInfo = () => {
-        if (this.state.displayAnswerText) {
-            //const elements = [];
-            //let buttonName = "";
-
-            if (this.state.selectedTrack === this.state.correctTrack) {
-                return (
-                    <div
-                        className="NextSongButton"
-                        onClick={this.nextButtonPressed}
-                    >
-                        <NextButton>Next Song</NextButton>
-                    </div>
-                );
-            } else if (this.props.lives === 0) {
-                return (
-                    <div>
-                        <div className="AttemptsRemaining">
-                            No attempts remaining
-                        </div>
-                        <div
-                            className="NextSongButton"
-                            onClick={this.nextButtonPressed}
-                        >
-                            <NextButton>Get Your Results</NextButton>
-                        </div>
-                    </div>
-                );
-            } else {
-                return (
-                    <div>
-                        <div className="AttemptsRemaining">
-                            {this.props.lives} attempt
-                            {this.props.lives === 1 ? null : 's'} remaining
-                        </div>
-                        <div
-                            className="NextSongButton"
-                            onClick={this.nextButtonPressed}
-                        >
-                            <NextButton>Next Song</NextButton>
-                        </div>
-                    </div>
-                );
-            }
-        }
-    };
-
     render() {
+        const correctAnswer =
+            this.state.correctTrack &&
+            this.state.correctTrack.id === this.state.selectedTrackId;
+
         return (
             <div>
                 <div
@@ -231,21 +175,11 @@ class TrackGrid extends Component {
                     {this.renderTracks()}
                     {this.state.displayAnswerText ? (
                         <Answer
-                            correctTrackDetails={this.getCorrectTrackDetails()}
                             correctTrack={this.state.correctTrack}
-                            selectedTrack={this.state.selectedTrack}
+                            correctAnswer={correctAnswer}
                         />
                     ) : null}
                 </div>
-                {this.state.displayAnswerText ? (
-                    <NextButton
-                        onClick={this.nextButtonPressed}
-                        correctTrack={this.state.correctTrack}
-                        selectedTrack={this.state.selectedTrack}
-                        lives={this.props.lives}
-                    />
-                ) : null}
-                {/* {this.renderBottomInfo()} */}
             </div>
         );
     }

@@ -1,41 +1,62 @@
-import React, { Component } from 'react';
-import './Answer.css'
+import React from 'react';
+import { Spring } from 'react-spring';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-class Answer extends Component {
-    constructor(props) {
-        super(props);
-        const isCorrectAnswer = (this.props.selectedTrack === this.props.correctTrack)
-        this.state = {
-            headingVisible: false,
-            correctTrackVisible: false,
-            correct: isCorrectAnswer,
-        };
-        
-    }
+const AnswerWrapper = styled.div`
+    position: absolute;
+    left: 320px;
+    height: 100%;
+`;
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({ headingVisible: true });
-        }, 20);        
-        setTimeout(() => {
-            this.setState({ correctTrackVisible: true });
-        }, 100);
-    }
-    
-    render() {
-        return (
-            <div className="AnswerWrapper">
-                <div className="AnswerContents">
-                    <div className={`AnswerHeading ${this.state.headingVisible ? "visible" : "" }`}>
-                        { this.state.correct ? "Correct!" : "Incorrect!" }
-                    </div>
-                    <div className={`CorrectTrack ${this.state.correctTrackVisible ? "visible" : ""}`}>
-                        {this.props.correctTrackDetails.name} by {this.props.correctTrackDetails.artist}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+const AnswerContents = styled.div`
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+`;
+
+const AnswerHeading = styled.div`
+    margin-top: -20px;
+    font-size: 5em;
+    color: white;
+    transition: all 0.2s ease;
+`;
+
+const CorrectTrack = styled.div`
+    color: #eaeaea;
+    margin-left: 15px;
+    transition: all 0.2s ease;
+`;
+
+const Answer = props => (
+    <AnswerWrapper>
+        <AnswerContents>
+            <Spring delay={30} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+                {styles => (
+                    <AnswerHeading style={styles}>
+                        {props.correctAnswer ? 'Correct!' : 'Incorrect!'}
+                    </AnswerHeading>
+                )}
+            </Spring>
+            <Spring delay={70} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+                {styles => (
+                    <CorrectTrack style={styles}>
+                        {props.correctTrack.name} by {props.correctTrack.artist}
+                    </CorrectTrack>
+                )}
+            </Spring>
+        </AnswerContents>
+    </AnswerWrapper>
+);
+
+Answer.propTypes = {
+    correctAnswer: PropTypes.bool.isRequired,
+    correctTrack: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        artist: PropTypes.string,
+        artwork: PropTypes.string
+    }).isRequired
+};
 
 export default Answer;
