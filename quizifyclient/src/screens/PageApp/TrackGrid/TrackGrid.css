@@ -10,7 +10,7 @@
 }
 
 .ShowingAnswer {
-    width: calc(300px + 20px + 300px);
+    /* width: calc(300px + 20px + 300px);
     height: 300px;
-    top: 45%;
+    top: 45%; */
 }
