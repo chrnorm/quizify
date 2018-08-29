@@ -1,5 +1,6 @@
 import React from 'react';
 import AlbumArtworkDimmable from './AlbumArtworkDimmable';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const TrackContainer = styled.div`
@@ -47,5 +48,16 @@ const Track = props => (
         ) : null}
     </TrackContainer>
 );
+
+Track.propTypes = {
+    info: PropTypes.shape({
+        name: PropTypes.string,
+        artists: PropTypes.arrayOf(PropTypes.string),
+        artwork: PropTypes.string,
+        id: PropTypes.string
+    }),
+    handleClick: PropTypes.func.isRequired,
+    showingNames: PropTypes.bool
+};
 
 export default Track;

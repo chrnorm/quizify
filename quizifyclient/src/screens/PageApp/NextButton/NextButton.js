@@ -40,13 +40,6 @@ const NextButton = props => (
                 )}
             </Spring>
         ) : null}
-        <Spring delay={1530} from={{ opacity: 0 }} to={{ opacity: 1 }}>
-            {styles => (
-                <Button style={styles} onClick={props.onClick}>
-                    {props.lives > 0 ? 'Next Song' : 'Get Your Results'}
-                </Button>
-            )}
-        </Spring>
     </NextButtonWrapper>
 );
 

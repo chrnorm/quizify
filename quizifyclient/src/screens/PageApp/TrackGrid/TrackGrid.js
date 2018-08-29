@@ -18,7 +18,7 @@ const TracksWrapper = styled.div`
 
 const getAnimationDelays = () => {
     // assign each track a random delay to allow for random-looking entry and exit animations
-    const animdelays = Array.from(Array(6).keys()).map(e => e * 100 + 300); // [0, 100, 200 ... 500]
+    const animdelays = Array.from(Array(6).keys()).map(e => e * 60 + 100); // [0, 100, 200 ... 500]
     shuffle(animdelays);
     return animdelays;
 };

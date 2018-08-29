@@ -1,5 +1,5 @@
 import React from 'react';
-import { animated, Spring } from 'react-spring';
+import { animated, Spring, config } from 'react-spring';
 import PropTypes from 'prop-types';
 
 /**
@@ -13,13 +13,14 @@ const AnimatedTrackWrapper = props => (
         from={{
             opacity: 0
         }}
+        config={config.stiff}
         to={props.show ? { opacity: 1 } : { opacity: 0 }}
     >
         {({ opacity }) => (
             // second spring for controlling position
             <Spring
                 native
-                delay={1000}
+                delay={800}
                 from={{
                     transform: `translate3d(${props.position.x}px,${
                         props.position.y

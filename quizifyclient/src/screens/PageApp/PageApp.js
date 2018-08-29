@@ -8,6 +8,8 @@ import Api from '../../util/apiAdapter';
 import shuffle from '../../util/shuffle';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
 
+const SECONDS_PER_QUESTION = 15;
+
 class PageApp extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +21,7 @@ class PageApp extends Component {
             playingAudio: null,
             selectedTrackId: null,
             displayingAnswer: false,
+            timeRemaining: SECONDS_PER_QUESTION,
             lives: 3
         };
     }
@@ -39,9 +42,27 @@ class PageApp extends Component {
             setTimeout(() => {
                 this.setState({
                     allowedToAnswer: true,
-                    playingAudio: this.state.currentTracks.audio
+                    playingAudio: this.state.currentTracks.audio,
+                    timeRemaining: SECONDS_PER_QUESTION
                 });
+                this.updateTimeRemaining();
             }, 1000);
+        }
+    };
+
+    updateTimeRemaining = () => {
+        if (!this.state.displayingAnswer) {
+            // force an incorrect track selection if no time remaining
+            if (this.state.timeRemaining <= 0) this.onSelectTrack(null);
+            else {
+                const timeRemaining = this.state.timeRemaining - 0.1;
+                this.setState({
+                    timeRemaining
+                });
+                setTimeout(() => {
+                    this.updateTimeRemaining();
+                }, 100);
+            }
         }
     };
 
@@ -74,6 +95,9 @@ class PageApp extends Component {
             selectedTrackId: id,
             allowedToAnswer: false
         });
+        setTimeout(() => {
+            this.getNextScreen();
+        }, 6000);
     };
 
     getNextScreen = () => {
