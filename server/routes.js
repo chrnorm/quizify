@@ -102,6 +102,14 @@ router.get('/callback', (req, res) => {
  * Get the next quiz question
  */
 router.get('/question', (req, res) => {
+    const reduceFieldsToSend = obj => ({
+        name: obj.track.name,
+        artists: obj.track.artists.map(artist => artist.name),
+        album: obj.track.album.name,
+        artwork: obj.track.album.images[0].url,
+        id: obj.track.id
+    });
+
     const answer = req.session.trackDeck.answer.pop();
     const fillers = [...Array(5)];
     let filler;
@@ -120,19 +128,13 @@ router.get('/question', (req, res) => {
     // store the answer and fillers server-side
     req.session.currentQuestion = { answer, fillers };
 
-    const tracks = [answer, ...fillers].map(obj => ({
-        name: obj.track.name,
-        artists: obj.track.artists.map(artist => artist.name),
-        album: obj.track.album.name,
-        artwork: obj.track.album.images[0].url,
-        id: obj.track.id
-    }));
-    shuffle(tracks);
-
     const audio = answer.track.preview_url;
 
-    // only return the track names, artists, ids, and audio from the answer
-    res.json({ tracks, audio });
+    res.json({
+        answer: reduceFieldsToSend(answer),
+        fillers: fillers.map(e => reduceFieldsToSend(e)),
+        audio
+    });
 });
 
 /**

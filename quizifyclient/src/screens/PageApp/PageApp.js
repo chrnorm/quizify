@@ -28,7 +28,7 @@ class PageApp extends Component {
         Api.getQuestion().then(res => {
             console.log(res);
 
-            this.setState({ currentTracks: res.tracks });
+            this.setState({ currentTracks: [res.answer, ...res.fillers] });
         });
     };
 
