@@ -5,42 +5,64 @@ import TrackGrid from './TrackGrid/TrackGrid';
 import NextButton from './NextButton/NextButton';
 import Answer from './Answer/Answer';
 import Api from '../../util/apiAdapter';
+import shuffle from '../../util/shuffle';
+import AudioPlayer from './AudioPlayer/AudioPlayer';
 
 class PageApp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentTracks: null,
+            currentTracks: { tracks: null, answer: null, audio: null },
             nextTracks: null,
-            correctTrack: null,
+            allowedToAnswer: false,
+            playingAudio: null,
             selectedTrackId: null,
             displayingAnswer: false,
             lives: 3
         };
-        Api.getQuestion().then(res => {
-            console.log(res);
-            this.setState({
-                currentTracks: [res.answer, ...res.fillers]
-            });
-            this.getNextQuestion();
-        });
     }
+
+    /**
+     * Fetch the first two questions when component is first mounted
+     */
+    componentDidMount = async () => {
+        const question = await this.getNextQuestion();
+        this.setState({ currentTracks: question });
+
+        const nextQuestion = await this.getNextQuestion();
+        this.setState({ nextTracks: nextQuestion });
+    };
+
+    componentDidUpdate = (_, prevState) => {
+        if (this.state.currentTracks !== prevState.currentTracks) {
+            setTimeout(() => {
+                this.setState({
+                    allowedToAnswer: true,
+                    playingAudio: this.state.currentTracks.audio
+                });
+            }, 1000);
+        }
+    };
 
     /**
      * Pre-fetch the next question from the API to ensure no delays between questions
      */
-    getNextQuestion = () => {
-        Api.getQuestion().then(res => {
-            console.log(res);
-            this.setState({ nextTracks: [res.answer, ...res.fillers] });
-        });
+    getNextQuestion = async () => {
+        const res = await Api.getQuestion();
+        console.log(res);
+        const tracks = [res.answer, ...res.fillers];
+        shuffle(tracks);
+        return {
+            tracks,
+            answer: res.answer,
+            audio: res.audio
+        };
     };
 
     onSelectTrack = id => {
-        const correctTrack = this.state.currentTracks[0]; // TODO CHANGE THIS
         console.log('track selected:', id);
-        if (id !== correctTrack.id) {
+        if (id !== this.state.currentTracks.answer.id) {
             const newlives = this.state.lives - 1;
             if (newlives === 0) {
                 console.log('out of lives!!');
@@ -48,9 +70,9 @@ class PageApp extends Component {
             this.setState({ lives: newlives });
         }
         this.setState({
-            correctTrack: correctTrack,
             displayingAnswer: true,
-            selectedTrackId: id
+            selectedTrackId: id,
+            allowedToAnswer: false
         });
     };
 
@@ -58,17 +80,15 @@ class PageApp extends Component {
         if (this.state.lives === 0) {
             this.props.history.push('/results');
         } else {
-            // use a callback on setState() to ensure that all Track objects are unmounted for an instant
             this.setState(
                 {
-                    currentTracks: null,
-                    correctTrack: null,
+                    currentTracks: this.state.nextTracks,
                     selectedTrackId: null,
                     displayingAnswer: false
                 },
-                () => {
-                    this.setState({ currentTracks: this.state.nextTracks });
-                    this.getNextQuestion();
+                async () => {
+                    const nextTracks = await this.getNextQuestion();
+                    this.setState({ nextTracks });
                 }
             );
         }
@@ -76,23 +96,31 @@ class PageApp extends Component {
 
     render() {
         const correctAnswer =
-            this.state.correctTrack &&
-            this.state.correctTrack.id === this.state.selectedTrackId;
+            this.state.currentTracks.answer &&
+            this.state.currentTracks.answer.id === this.state.selectedTrackId;
 
         return (
             <div>
                 <GradientBackground />
                 <NavBar />
+                <AudioPlayer
+                    src={this.state.playingAudio}
+                    play={
+                        this.state.allowedToAnswer ||
+                        this.state.displayingAnswer
+                    }
+                />
                 <TrackGrid
                     displayingAnswer={this.state.displayingAnswer}
-                    tracks={this.state.currentTracks}
-                    correctTrack={this.state.correctTrack}
+                    tracks={this.state.currentTracks.tracks}
+                    correctTrack={this.state.currentTracks.answer}
                     onSelectTrack={this.onSelectTrack}
+                    allowTrackSelection={this.state.allowedToAnswer}
                 >
                     {this.state.displayingAnswer ? (
                         <Fragment>
                             <Answer
-                                correctTrack={this.state.correctTrack}
+                                correctTrack={this.state.currentTracks.answer}
                                 correctAnswer={correctAnswer}
                             />
                             <NextButton

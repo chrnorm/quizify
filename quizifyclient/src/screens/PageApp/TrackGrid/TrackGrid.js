@@ -45,8 +45,7 @@ class TrackGrid extends Component {
         this.state = {
             positions: getPositions(),
             animdelays: getAnimationDelays(),
-            showingNames: false,
-            allowTrackSelection: true
+            showingNames: false
         };
     }
 
@@ -59,16 +58,14 @@ class TrackGrid extends Component {
     resetQuestion = () => {
         this.setState({
             animdelays: getAnimationDelays(),
-            showingNames: false,
-            allowTrackSelection: true
+            showingNames: false
         });
     };
 
     handleClick = clickedId => {
-        if (this.state.allowTrackSelection === true) {
+        if (this.props.allowTrackSelection === true) {
             this.setState({
-                showingNames: false,
-                allowTrackSelection: false
+                showingNames: false
             });
             this.props.onSelectTrack(clickedId);
         }
@@ -86,7 +83,7 @@ class TrackGrid extends Component {
                       <AnimatedTrackWrapper
                           delay={this.state.animdelays[i]}
                           show={!this.props.displayingAnswer || isAnswer}
-                          isAnswer={isAnswer}
+                          isAnswer={this.props.displayingAnswer && isAnswer}
                           position={this.state.positions[i]}
                           key={el.id}
                       >
