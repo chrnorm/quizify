@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import Track from '../Track/Track';
 import shuffle from '../../../util/shuffle';
-import './TrackGrid.css';
-import Answer from '../Answer/Answer';
+import styled from 'styled-components';
 import AnimatedTrackWrapper from './AnimatedTrackWrapper';
 import PropTypes from 'prop-types';
+
+const TracksWrapper = styled.div`
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 660px;
+    height: 440px;
+    transition: all 0.1s ease;
+`;
 
 const getAnimationDelays = () => {
     // assign each track a random delay to allow for random-looking entry and exit animations
@@ -13,33 +23,30 @@ const getAnimationDelays = () => {
     return animdelays;
 };
 
+const getPositions = () => {
+    // generate grid matrix, 3 columns and 2 rows for 6 tracks total
+    const positions = [];
+    const offset = 20;
+    for (let col = 0; col < 3; col++) {
+        for (let row = 0; row < 2; row++) {
+            positions.push({
+                x: col * (200 + offset),
+                y: row * (200 + offset)
+            });
+        }
+    }
+    return positions;
+};
+
 class TrackGrid extends Component {
     constructor(props) {
         super(props);
 
-        // generate grid matrix, 3 columns and 2 rows for 6 tracks total
-        const positions = [];
-        const offset = 20;
-        for (let col = 0; col < 3; col++) {
-            for (let row = 0; row < 2; row++) {
-                positions.push({
-                    x: col * (200 + offset),
-                    y: row * (200 + offset)
-                });
-            }
-        }
-
-        const animdelays = getAnimationDelays();
-
         this.state = {
-            positions,
-            animdelays,
+            positions: getPositions(),
+            animdelays: getAnimationDelays(),
             showingNames: false,
-            selectedTrackId: null,
-            allowTrackSelection: true,
-            correctTrack: null,
-            animationState: 'show',
-            displayAnswerText: false
+            allowTrackSelection: true
         };
     }
 
@@ -47,55 +54,21 @@ class TrackGrid extends Component {
         if (this.props.tracks !== prevProps.tracks) {
             this.resetQuestion();
         }
-        if (
-            this.props.correctTrack !== prevProps.correctTrack &&
-            this.props.correctTrack !== null
-        ) {
-            this.setState({
-                correctTrack: this.props.correctTrack,
-                displayAnswerText: true
-            });
-            // setTimeout(() => {
-            //     this.randomlyHideOtherTracks(this.props.correctTrack);
-            // }, 200);
-        }
     }
 
     resetQuestion = () => {
         this.setState({
             animdelays: getAnimationDelays(),
             showingNames: false,
-            allowTrackSelection: true,
-            selectedTrackId: null,
-            displayAnswerText: false,
-            animationState: 'show',
-            correctTrack: null
+            allowTrackSelection: true
         });
-        // setTimeout(() => {
-        //     this.setState({ animationState: 'show' });
-        // }, 10);
-        // setTimeout(() => {
-        //     this.setState({ correctTrack: null });
-        // }, 10);
-        // setTimeout(() => {
-        //     this.randomlyShowTracks();
-        // }, 60);
-        // setTimeout(() => {
-        //     this.setState({ showingNames: true });
-        // }, 4000);
     };
-
-    componentDidMount() {
-        this.resetQuestion();
-    }
 
     handleClick = clickedId => {
         if (this.state.allowTrackSelection === true) {
             this.setState({
                 showingNames: false,
-                allowTrackSelection: false,
-                selectedTrackId: clickedId,
-                animationState: 'hide'
+                allowTrackSelection: false
             });
             this.props.onSelectTrack(clickedId);
         }
@@ -103,54 +76,40 @@ class TrackGrid extends Component {
 
     renderTracks = () => {
         return this.props.tracks
-            ? this.props.tracks.map((el, i) => (
-                  <AnimatedTrackWrapper
-                      delay={this.state.animdelays[i]}
-                      show={
-                          this.state.animationState !== 'hide' ||
-                          (this.state.displayAnswerText &&
-                              this.state.correctTrack &&
-                              this.state.correctTrack.id === el.id)
-                      }
-                      isAnswer={
-                          this.state.correctTrack &&
-                          this.state.correctTrack.id === el.id
-                      }
-                      position={this.state.positions[i]}
-                  >
-                      <Track
-                          info={el}
+            ? this.props.tracks.map((el, i) => {
+                  const isAnswer =
+                      this.props.correctTrack &&
+                      this.props.correctTrack.id === el.id
+                          ? true
+                          : false;
+                  return (
+                      <AnimatedTrackWrapper
+                          delay={this.state.animdelays[i]}
+                          show={!this.props.displayingAnswer || isAnswer}
+                          isAnswer={isAnswer}
+                          position={this.state.positions[i]}
                           key={el.id}
-                          showingNames={this.state.showingNames} //   hide={this.state.hide[el.id]}
-                          handleClick={this.handleClick}
-                      />
-                  </AnimatedTrackWrapper>
-              ))
+                      >
+                          <Track
+                              info={el}
+                              key={el.id}
+                              showingNames={this.state.showingNames}
+                              handleClick={
+                                  this.handleClick //   hide={this.state.hide[el.id]}
+                              }
+                          />
+                      </AnimatedTrackWrapper>
+                  );
+              })
             : null;
     };
 
     render() {
-        const correctAnswer =
-            this.state.correctTrack &&
-            this.state.correctTrack.id === this.state.selectedTrackId;
-
         return (
-            <div>
-                <div
-                    className={`TracksWrapper ${
-                        this.state.correctTrack !== null ? 'ShowingAnswer' : ''
-                    }`}
-                >
-                    {this.renderTracks()}
-                    {this.state.displayAnswerText ? (
-                        // TODO use a transition here from react-spring
-                        <Answer
-                            correctTrack={this.state.correctTrack}
-                            correctAnswer={correctAnswer}
-                        />
-                    ) : null}
-                </div>
-            </div>
+            <TracksWrapper>
+                {this.renderTracks()}
+                {this.props.children}
+            </TracksWrapper>
         );
     }
 }

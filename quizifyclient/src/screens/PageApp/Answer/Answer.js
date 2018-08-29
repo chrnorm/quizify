@@ -31,14 +31,14 @@ const CorrectTrack = styled.div`
 const Answer = props => (
     <AnswerWrapper>
         <AnswerContents>
-            <Spring delay={30} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+            <Spring delay={1000} from={{ opacity: 0 }} to={{ opacity: 1 }}>
                 {styles => (
                     <AnswerHeading style={styles}>
                         {props.correctAnswer ? 'Correct!' : 'Incorrect!'}
                     </AnswerHeading>
                 )}
             </Spring>
-            <Spring delay={70} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+            <Spring delay={1100} from={{ opacity: 0 }} to={{ opacity: 1 }}>
                 {styles => (
                     <CorrectTrack style={styles}>
                         {props.correctTrack.name} by{' '}
@@ -53,7 +53,7 @@ const Answer = props => (
 Answer.propTypes = {
     correctAnswer: PropTypes.bool.isRequired,
     correctTrack: PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.string,
         name: PropTypes.string,
         artists: PropTypes.arrayOf(PropTypes.string),
         artwork: PropTypes.string

@@ -9,7 +9,7 @@ const AnimatedTrackWrapper = props => (
     // first spring for controlling opacity
     <Spring
         native
-        delay={props.isAnswer ? 0 : props.delay}
+        delay={props.delay}
         from={{
             opacity: 0
         }}
@@ -19,8 +19,7 @@ const AnimatedTrackWrapper = props => (
             // second spring for controlling position
             <Spring
                 native
-                reset={!props.isAnswer && !props.show}
-                delay={props.isAnswer && props.show ? 1000 : 0}
+                delay={1000}
                 from={{
                     transform: `translate3d(${props.position.x}px,${
                         props.position.y

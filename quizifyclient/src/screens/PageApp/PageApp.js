@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
 import NextButton from './NextButton/NextButton';
-import {
-    SAMPLE_REAL_TRACKS,
-    SAMPLE_TRACKS,
-    NEXT_TRACKS
-} from '../../util/mockData';
+import Answer from './Answer/Answer';
+import styled from 'styled-components';
 import Api from '../../util/apiAdapter';
 
 class PageApp extends Component {
@@ -16,19 +13,27 @@ class PageApp extends Component {
 
         this.state = {
             currentTracks: null,
+            nextTracks: null,
             correctTrack: null,
             displayingAnswer: false,
             lives: 2
         };
-        this.getQuestion();
-    }
-
-    getQuestion = () => {
-        // fetch next tracks
         Api.getQuestion().then(res => {
             console.log(res);
+            this.setState({
+                currentTracks: [res.answer, ...res.fillers]
+            });
+            this.getNextQuestion();
+        });
+    }
 
-            this.setState({ currentTracks: [res.answer, ...res.fillers] });
+    /**
+     * Pre-fetch the next question from the API to ensure no delays between questions
+     */
+    getNextQuestion = () => {
+        Api.getQuestion().then(res => {
+            console.log(res);
+            this.setState({ nextTracks: [res.answer, ...res.fillers] });
         });
     };
 
@@ -52,12 +57,18 @@ class PageApp extends Component {
         if (this.state.lives === 0) {
             this.props.history.push('/results');
         } else {
-            this.setState({
-                currentTracks: null,
-                correctTrack: null,
-                displayingAnswer: false
-            });
-            this.getQuestion();
+            // use a callback on setState() to ensure that all Track objects are unmounted for an instant
+            this.setState(
+                {
+                    currentTracks: null,
+                    correctTrack: null,
+                    displayingAnswer: false
+                },
+                () => {
+                    this.setState({ currentTracks: this.state.nextTracks });
+                    this.getNextQuestion();
+                }
+            );
         }
     };
 
@@ -71,19 +82,25 @@ class PageApp extends Component {
                 <GradientBackground />
                 <NavBar />
                 <TrackGrid
+                    displayingAnswer={this.state.displayingAnswer}
                     tracks={this.state.currentTracks}
-                    lives={this.state.lives}
                     correctTrack={this.state.correctTrack}
                     onSelectTrack={this.onSelectTrack}
-                    nextButtonPressed={this.getNextScreen}
-                />
-                {this.state.displayingAnswer ? (
-                    <NextButton
-                        onClick={this.getNextScreen}
-                        correctAnswer={correctAnswer}
-                        lives={this.state.lives}
-                    />
-                ) : null}
+                >
+                    {this.state.displayingAnswer ? (
+                        <Fragment>
+                            <Answer
+                                correctTrack={this.state.correctTrack}
+                                correctAnswer={correctAnswer}
+                            />
+                            <NextButton
+                                onClick={this.getNextScreen}
+                                correctAnswer={correctAnswer}
+                                lives={this.state.lives}
+                            />
+                        </Fragment>
+                    ) : null}
+                </TrackGrid>
             </div>
         );
     }

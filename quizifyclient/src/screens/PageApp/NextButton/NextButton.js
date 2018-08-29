@@ -9,7 +9,7 @@ const NextButtonWrapper = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    bottom: 150px;
+    top: 420px;
     left: 50%;
     -webkit-transform: translate(-50%, 0);
     -ms-transform: translate(-50%, 0);
@@ -32,7 +32,7 @@ const renderAttemptText = lives => {
 const NextButton = props => (
     <NextButtonWrapper>
         {props.correctAnswer === false ? (
-            <Spring delay={600} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+            <Spring delay={1500} from={{ opacity: 0 }} to={{ opacity: 1 }}>
                 {styles => (
                     <AttemptsRemaining style={styles}>
                         {renderAttemptText(props.lives)}
@@ -40,7 +40,7 @@ const NextButton = props => (
                 )}
             </Spring>
         ) : null}
-        <Spring delay={630} from={{ opacity: 0 }} to={{ opacity: 1 }}>
+        <Spring delay={1530} from={{ opacity: 0 }} to={{ opacity: 1 }}>
             {styles => (
                 <Button style={styles} onClick={props.onClick}>
                     {props.lives > 0 ? 'Next Song' : 'Get Your Results'}
