@@ -14,8 +14,9 @@ class PageApp extends Component {
             currentTracks: null,
             nextTracks: null,
             correctTrack: null,
+            selectedTrackId: null,
             displayingAnswer: false,
-            lives: 2
+            lives: 3
         };
         Api.getQuestion().then(res => {
             console.log(res);
@@ -37,9 +38,9 @@ class PageApp extends Component {
     };
 
     onSelectTrack = id => {
-        const correct = this.state.currentTracks[0]; // TODO CHANGE THIS
+        const correctTrack = this.state.currentTracks[0]; // TODO CHANGE THIS
         console.log('track selected:', id);
-        if (id !== correct.id) {
+        if (id !== correctTrack.id) {
             const newlives = this.state.lives - 1;
             if (newlives === 0) {
                 console.log('out of lives!!');
@@ -47,8 +48,9 @@ class PageApp extends Component {
             this.setState({ lives: newlives });
         }
         this.setState({
-            correctTrack: correct,
-            displayingAnswer: true
+            correctTrack: correctTrack,
+            displayingAnswer: true,
+            selectedTrackId: id
         });
     };
 
@@ -61,6 +63,7 @@ class PageApp extends Component {
                 {
                     currentTracks: null,
                     correctTrack: null,
+                    selectedTrackId: null,
                     displayingAnswer: false
                 },
                 () => {
