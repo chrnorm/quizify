@@ -106,7 +106,7 @@ router.get('/question', (req, res) => {
         name: obj.track.name,
         artists: obj.track.artists.map(artist => artist.name),
         album: obj.track.album.name,
-        artwork: obj.track.album.images[0].url,
+        artwork: obj.track.album.images[1].url, // 300x300 image
         id: obj.track.id
     });
 
