@@ -2,6 +2,12 @@ import React from 'react';
 import AlbumArtworkDimmable from './AlbumArtworkDimmable';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import {
+    AnimatedValue,
+    animated,
+    interpolate,
+    controller as spring
+} from 'react-spring';
 
 const TrackContainer = styled.div`
     cursor: pointer;
@@ -13,6 +19,16 @@ const TrackContainer = styled.div`
     width: 200px;
     display: inline-block;
     background: black;
+
+    ${props =>
+        props.selectable
+            ? `&:hover {
+        height: 208px;
+        width: 208px;
+        top: -4px;
+        left: -4px;
+    }`
+            : null};
 `;
 
 const TrackDetails = styled.div`
@@ -35,7 +51,10 @@ const Artist = styled.div`
 `;
 
 const Track = props => (
-    <TrackContainer onClick={() => props.handleClick(props.info.id)}>
+    <TrackContainer
+        selectable={props.selectable}
+        onClick={() => props.handleClick(props.info.id)}
+    >
         <AlbumArtworkDimmable
             img={props.info.artwork}
             dimmed={props.showingNames}
@@ -57,7 +76,8 @@ Track.propTypes = {
         id: PropTypes.string
     }),
     handleClick: PropTypes.func.isRequired,
-    showingNames: PropTypes.bool
+    showingNames: PropTypes.bool,
+    selectable: PropTypes.bool
 };
 
 export default Track;

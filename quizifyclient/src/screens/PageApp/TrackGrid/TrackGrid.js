@@ -91,9 +91,8 @@ class TrackGrid extends Component {
                               info={el}
                               key={el.id}
                               showingNames={this.state.showingNames}
-                              handleClick={
-                                  this.handleClick //   hide={this.state.hide[el.id]}
-                              }
+                              handleClick={this.handleClick}
+                              selectable={this.props.allowTrackSelection}
                           />
                       </AnimatedTrackWrapper>
                   );
@@ -119,7 +118,8 @@ TrackGrid.propTypes = {
             artwork: PropTypes.string,
             id: PropTypes.string
         })
-    )
+    ),
+    allowTrackSelection: PropTypes.bool
 };
 
 export default TrackGrid;
