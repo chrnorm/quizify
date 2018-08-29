@@ -37,10 +37,10 @@ img.Artwork {
     left: 0px;
 }
 
-.SmallTrack:hover {
+/* .SmallTrack:hover {
     height: 208px;
     width: 208px;
-}
+} */
 
 .Track.TrackPos-0:hover {
     top: -4px;

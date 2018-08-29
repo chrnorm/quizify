@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const cors = require('cors');
 const logger = require('morgan');
 const session = require('express-session');
 const routes = require('./routes');
@@ -16,6 +17,7 @@ app.set('port', port);
 app.use(logger('dev'))
     .use(session({ secret: 'quizify', cookie: { maxAge: 600000 } })) //TODO: implement prod-ready session store
     .use(cookieParser())
+    .use(cors({ origin: 'http://localhost:3000', credentials: true }))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
     .use(express.static(path.resolve(__dirname, '../public')))

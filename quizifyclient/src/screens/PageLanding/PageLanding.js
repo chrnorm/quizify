@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import QuizifyLogo from '../../components/QuizifyLogo/QuizifyLogo';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
-import API_URL from '../../util/apiAdapter';
+import API_URL from '../../util/apiUrl';
 import Button from '../../components/Button/Button';
 import './PageLanding.css';
 

@@ -41,7 +41,8 @@ const Answer = props => (
             <Spring delay={70} from={{ opacity: 0 }} to={{ opacity: 1 }}>
                 {styles => (
                     <CorrectTrack style={styles}>
-                        {props.correctTrack.name} by {props.correctTrack.artist}
+                        {props.correctTrack.name} by{' '}
+                        {props.correctTrack.artists[0]}
                     </CorrectTrack>
                 )}
             </Spring>
@@ -54,7 +55,7 @@ Answer.propTypes = {
     correctTrack: PropTypes.shape({
         id: PropTypes.number,
         name: PropTypes.string,
-        artist: PropTypes.string,
+        artists: PropTypes.arrayOf(PropTypes.string),
         artwork: PropTypes.string
     }).isRequired
 };

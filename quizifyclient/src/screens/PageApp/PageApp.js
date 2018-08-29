@@ -3,22 +3,37 @@ import GradientBackground from '../../components/GradientBackground/GradientBack
 import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
 import NextButton from './NextButton/NextButton';
-import { SAMPLE_TRACKS, NEXT_TRACKS } from '../../util/mockData';
+import {
+    SAMPLE_REAL_TRACKS,
+    SAMPLE_TRACKS,
+    NEXT_TRACKS
+} from '../../util/mockData';
+import Api from '../../util/apiAdapter';
 
 class PageApp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentTracks: SAMPLE_TRACKS,
+            currentTracks: null,
             correctTrack: null,
             displayingAnswer: false,
             lives: 2
         };
+        this.getQuestion();
     }
 
+    getQuestion = () => {
+        // fetch next tracks
+        Api.getQuestion().then(res => {
+            console.log(res);
+
+            this.setState({ currentTracks: res.tracks });
+        });
+    };
+
     onSelectTrack = id => {
-        const correct = SAMPLE_TRACKS[0]; // TODO CHANGE THIS
+        const correct = this.state.currentTracks[0]; // TODO CHANGE THIS
         console.log('track selected:', id);
         if (id !== correct.id) {
             const newlives = this.state.lives - 1;
@@ -38,10 +53,11 @@ class PageApp extends Component {
             this.props.history.push('/results');
         } else {
             this.setState({
-                currentTracks: NEXT_TRACKS,
+                currentTracks: null,
                 correctTrack: null,
                 displayingAnswer: false
             });
+            this.getQuestion();
         }
     };
 

@@ -1,7 +1,10 @@
-let API_URL;
+import API_URL from './apiUrl';
 
-process.env.REACT_APP_STAGE === 'dev'
-    ? (API_URL = 'http://localhost:8888')
-    : (API_URL = 'http://localhost:8888');
-
-export default API_URL;
+export default {
+    getQuestion: async () => {
+        const res = await fetch(`${API_URL}/question`, {
+            credentials: 'include'
+        });
+        return res.json();
+    }
+};
