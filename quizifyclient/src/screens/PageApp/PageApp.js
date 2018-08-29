@@ -4,7 +4,6 @@ import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
 import NextButton from './NextButton/NextButton';
 import Answer from './Answer/Answer';
-import styled from 'styled-components';
 import Api from '../../util/apiAdapter';
 
 class PageApp extends Component {
