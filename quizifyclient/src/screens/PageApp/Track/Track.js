@@ -1,51 +1,51 @@
-import React, { Component } from 'react';
-import './Track.css';
+import React from 'react';
+import AlbumArtworkDimmable from './AlbumArtworkDimmable';
+import styled from 'styled-components';
 
-class Track extends Component {
-    handleClick = () => {
-        this.props.handleClick(this.props.info.id);
-    };
+const TrackContainer = styled.div`
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transition: all 0.1s ease;
+    height: 200px;
+    width: 200px;
+    display: inline-block;
+    background: black;
+`;
 
-    render() {
-        const shouldShowNames =
-            this.props.showingNames && this.props.bigTrack !== true;
-        const invisible = this.props.hide ? 'invisible' : '';
-        const big = this.props.bigTrack
-            ? 'BigTrack'
-            : `SmallTrack TrackPos-${this.props.gridindex}`;
-        return (
-            <div
-                onClick={this.handleClick}
-                className={`Track ${invisible} ${big}`}
-            >
-                <img
-                    alt="Album Artwork"
-                    className={shouldShowNames ? 'Artwork dimmed' : 'Artwork'}
-                    src={this.props.info.artwork}
-                />
-                <div className="TrackDetails">
-                    <div
-                        className={
-                            shouldShowNames
-                                ? 'TrackName'
-                                : 'TrackName invisible'
-                        }
-                    >
-                        {this.props.info.name}
-                    </div>
-                    <div
-                        className={
-                            shouldShowNames
-                                ? 'TrackArtist'
-                                : 'TrackArtist invisible'
-                        }
-                    >
-                        {this.props.info.artist}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+const TrackDetails = styled.div`
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 1;
+    width: 80%;
+    text-align: center;
+`;
+
+const Artist = styled.div`
+    color: #a8a8a8;
+`;
+
+const Track = props => (
+    <TrackContainer onClick={() => props.handleClick(props.info.id)}>
+        <AlbumArtworkDimmable
+            img={props.info.artwork}
+            dimmed={props.showingNames}
+        />
+        {props.showingNames ? (
+            <TrackDetails>
+                <div>{props.info.name}</div>
+                <Artist>{props.info.artists[0]}</Artist>
+            </TrackDetails>
+        ) : null}
+    </TrackContainer>
+);
 
 export default Track;
