@@ -61,7 +61,8 @@ class TrackGrid extends Component {
             showingNames: false
         });
         setTimeout(() => {
-            this.setState({ showingNames: true });
+            if (this.props.allowTrackSelection === true)
+                this.setState({ showingNames: true });
         }, 4000);
     };
 
