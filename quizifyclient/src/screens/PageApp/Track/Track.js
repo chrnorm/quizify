@@ -1,13 +1,6 @@
 import React from 'react';
-import AlbumArtworkDimmable from './AlbumArtworkDimmable';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-    AnimatedValue,
-    animated,
-    interpolate,
-    controller as spring
-} from 'react-spring';
 
 const TrackContainer = styled.div`
     cursor: pointer;
@@ -41,7 +34,11 @@ const TrackDetails = styled.div`
     justify-content: center;
     align-items: center;
     color: white;
-    opacity: 1;
+    transition: ${props =>
+        props.visible
+            ? 'all 2s ease'
+            : 'all 0.5s ease'}; // slow fade in, fast fade out
+    opacity: ${props => (props.visible ? '1' : '0')};
     width: 80%;
     text-align: center;
 `;
@@ -50,21 +47,38 @@ const Artist = styled.div`
     color: #a8a8a8;
 `;
 
+const Artwork = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+    transition: ${props =>
+        props.dimmed
+            ? 'all 2s ease'
+            : 'all 0.5s ease'}; // slow fade in, fast fade out
+    -webkit-box-shadow: 0px 2px 6px rgba(30, 30, 30, 0.4);
+    -moz-box-shadow: 0px 2px 6px rgba(30, 30, 30, 0.4);
+    box-shadow: 0px 2px 6px rgba(30, 30, 30, 0.4);
+
+    ${props =>
+        props.dimmed
+            ? `
+    -webkit-filter: brightness(30%);
+    -moz-filter: brightness(30%);
+    filter: url(#brightness); /* required for FF */
+    filter: brightness(30%);
+    `
+            : null};
+`;
+
 const Track = props => (
     <TrackContainer
         selectable={props.selectable}
         onClick={() => props.handleClick(props.info.id)}
     >
-        <AlbumArtworkDimmable
-            img={props.info.artwork}
-            dimmed={props.showingNames}
-        />
-        {props.showingNames ? (
-            <TrackDetails>
-                <div>{props.info.name}</div>
-                <Artist>{props.info.artists[0]}</Artist>
-            </TrackDetails>
-        ) : null}
+        <Artwork src={props.info.artwork} dimmed={props.showingNames} />
+        <TrackDetails visible={props.showingNames}>
+            <div>{props.info.name}</div>
+            <Artist>{props.info.artists[0]}</Artist>
+        </TrackDetails>
     </TrackContainer>
 );
 

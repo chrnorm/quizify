@@ -60,6 +60,9 @@ class TrackGrid extends Component {
             animdelays: getAnimationDelays(),
             showingNames: false
         });
+        setTimeout(() => {
+            this.setState({ showingNames: true });
+        }, 4000);
     };
 
     handleClick = clickedId => {
