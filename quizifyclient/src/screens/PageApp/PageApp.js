@@ -7,6 +7,7 @@ import Answer from './Answer/Answer';
 import Api from '../../util/apiAdapter';
 import shuffle from '../../util/shuffle';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
+import apiAdapter from '../../util/apiAdapter';
 
 const SECONDS_PER_QUESTION = 15;
 
@@ -22,7 +23,8 @@ class PageApp extends Component {
             selectedTrackId: null,
             displayingAnswer: false,
             timeRemaining: SECONDS_PER_QUESTION,
-            lives: 3
+            lives: 3,
+            stats: null
         };
     }
 
@@ -30,6 +32,7 @@ class PageApp extends Component {
      * Fetch the first two questions when component is first mounted
      */
     componentDidMount = async () => {
+        await apiAdapter.reset();
         const question = await this.getNextQuestion();
         this.setState({ currentTracks: question });
 
@@ -81,15 +84,27 @@ class PageApp extends Component {
         };
     };
 
+    updateScore = async (correct, timeRemaining) => {
+        const res = await Api.getAnswer(correct, timeRemaining);
+        console.log(res);
+        this.setState({ stats: res });
+    };
+
     onSelectTrack = id => {
         console.log('track selected:', id);
+        let wasAnswerCorrect;
         if (id !== this.state.currentTracks.answer.id) {
             const newlives = this.state.lives - 1;
             if (newlives === 0) {
                 console.log('out of lives!!');
             }
             this.setState({ lives: newlives });
+            wasAnswerCorrect = false;
+        } else {
+            wasAnswerCorrect = true;
         }
+
+        this.updateScore(wasAnswerCorrect, this.state.timeRemaining);
         this.setState({
             displayingAnswer: true,
             selectedTrackId: id,

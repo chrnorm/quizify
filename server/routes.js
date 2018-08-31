@@ -83,6 +83,9 @@ router.get('/callback', (req, res) => {
                     filler: []
                 };
                 req.session.lives = 3;
+                req.session.totalScore = 0;
+                req.session.correctAnswers = 0;
+                req.session.totalAnswers = 0;
 
                 // TODO: check how many tracks the user has in their library here and return an error if they have less than 50
                 // also use the total number to send to getAllTracks and simplify that function
@@ -137,30 +140,63 @@ router.get('/question', (req, res) => {
     });
 });
 
+/** Reset the user's quiz stats */
+router.get('/reset', (req, res) => {
+    req.session.lives = 3;
+    req.session.totalScore = 0;
+    req.session.correctAnswers = 0;
+    req.session.totalAnswers = 0;
+    res.status(200).send();
+});
+
+/**
+ * Get the user's quiz stats
+ */
+router.get('/stats', (req, res) => {
+    const response = {
+        correctAnswers: req.session.correctAnswers,
+        totalAnswers: req.session.totalAnswers,
+        totalScore: req.session.totalScore,
+        lives: req.session.lives
+    };
+
+    console.log(response);
+    res.send(response);
+});
+
 /**
  * Get the answer to a quiz question
  * Params: selected - the id of the track that the user selected
  */
 router.get('/answer', (req, res) => {
-    const question = req.session.currentQuestion;
-
-    if (!question) res.status(500).send('GET a question (/question) first');
-    else if (!req.query.selected)
+    if (!req.query.correct || !req.query.timeRemaining)
         res.status(500).send(
-            'correct request format is /answer?selected=(id of selected track)'
+            'correct request format is /answer?correct=(true or false)&timeRemaining=(time remaining on question)'
         );
     else {
-        let wasCorrect = '';
-        if (req.query.selected === question.answer.track.id) {
-            wasCorrect = true;
+        let score = 0;
+        if (req.query.correct === 'true') {
+            req.session.correctAnswers++;
+
+            // scoring system:
+            // 0-1s remaining => 10 points
+            // 1-2s remaining => 20 points
+            // ...
+            // 14+s remaining => 150 points
+            score =
+                10 * Math.max(0, Math.ceil(Number(req.query.timeRemaining)));
+            req.session.totalScore += score;
         } else {
-            wasCorrect = false;
             req.session.lives--;
         }
+        req.session.totalAnswers++;
+
         const response = {
-            wasCorrect,
+            correctAnswers: req.session.correctAnswers,
+            totalAnswers: req.session.totalAnswers,
+            totalScore: req.session.totalScore,
             lives: req.session.lives,
-            correctTrackId: question.answer.track.id
+            score
         };
 
         console.log(response);

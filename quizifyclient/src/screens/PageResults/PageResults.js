@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ApiAdapter from '../../util/apiAdapter';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import Button from '../../components/Button/Button';
 import NavBar from '../../components/NavBar/NavBar';
@@ -11,7 +12,8 @@ class PageResults extends Component {
         this.state = {
             textVisible: false,
             buttonShareVisible: false,
-            buttonTryAgainVisible: false
+            buttonTryAgainVisible: false,
+            stats: { correctAnswers: null, totalScore: null }
         };
         setTimeout(() => {
             this.setState({ textVisible: true });
@@ -24,6 +26,11 @@ class PageResults extends Component {
         }, 2250);
     }
 
+    componentDidMount = async () => {
+        const stats = await ApiAdapter.getStats();
+        this.setState({ stats });
+    };
+
     render() {
         return (
             <div>
@@ -35,9 +42,12 @@ class PageResults extends Component {
                             this.state.textVisible ? 'visible' : ''
                         }`}
                     >
-                        <h1 className="ScoreTitle">Your Quizify Score: 7000</h1>
+                        <h1 className="ScoreTitle">
+                            Your Quizify Score: {this.state.stats.totalScore}
+                        </h1>
                         <div className="ScoreDetails">
-                            Based on 23 correct song choices
+                            Based on {this.state.stats.correctAnswers} correct
+                            song choices
                         </div>
                     </div>
                     <div className="ResultsButtons">
