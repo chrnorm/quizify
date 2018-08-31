@@ -1,5 +1,10 @@
 api:
   build: .
   dockerfile: Dockerfile
+  links:
+    - redis
   ports:
     - "8888:8888"
+
+redis:
+  image: redis
