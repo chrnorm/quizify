@@ -16,6 +16,7 @@
         "spotify-web-api-node": "^3.0.0"
     },
     "scripts": {
-        "start": "node app.js"
+        "start": "node app.js",
+        "start-prod": "NODE_ENV=production node app.js"
     }
 }
