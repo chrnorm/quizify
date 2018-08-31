@@ -9,6 +9,7 @@ const logger = require('morgan');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const routes = require('./routes');
+const clientUrl = require('./util/urls');
 
 const port = process.env.PORT || 8888;
 
@@ -26,7 +27,7 @@ app.use(logger('dev'))
         })
     ) //TODO: implement prod-ready session store
     .use(cookieParser())
-    .use(cors({ origin: 'http://localhost:3000', credentials: true }))
+    .use(cors({ origin: clientUrl, credentials: true }))
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: false }))
     .use(express.static(path.resolve(__dirname, '../public')))
@@ -34,4 +35,5 @@ app.use(logger('dev'))
 
 app.listen(app.get('port'), () => {
     console.log('Express server listening on port ' + app.get('port'));
+    console.log('Client url: ' + clientUrl);
 });

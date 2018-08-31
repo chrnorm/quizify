@@ -3,6 +3,7 @@
 const Spotify = require('spotify-web-api-node');
 const shuffle = require('./util/shuffle');
 const express = require('express');
+const clientUrl = require('./util/urls');
 require('dotenv').config();
 
 const router = new express.Router();
@@ -92,7 +93,7 @@ router.get('/callback', (req, res) => {
 
                 getAllTracks(req.session);
 
-                res.redirect('http://localhost:3000/start');
+                res.redirect(`${clientUrl}/start`);
             })
             .catch(err => {
                 console.log(err);
