@@ -1,4 +1,4 @@
 [build]
   base    = "quizifyclient"
-  publish = "quizifyclient/public"
+  publish = "quizifyclient/build"
   command = "yarn build"
