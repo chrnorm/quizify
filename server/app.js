@@ -19,13 +19,16 @@ app.set('port', port);
 app.use(logger('dev'))
     .use(
         session({
-            store: new RedisStore({ host: 'redis', port: 6379 }),
+            store: new RedisStore({
+                host: 'redis',
+                url: process.env.REDIS_URL
+            }),
             secret: 'quizify',
             cookie: { maxAge: 600000 },
             resave: false,
             saveUninitialized: false
         })
-    ) //TODO: implement prod-ready session store
+    )
     .use(cookieParser())
     .use(cors({ origin: clientUrl, credentials: true }))
     .use(bodyParser.json())
