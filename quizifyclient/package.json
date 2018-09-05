@@ -26,14 +26,6 @@
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
-  "proxy": {
-    "/.netlify/functions": {
-      "target": "http://localhost:9000",
-      "pathRewrite": {
-        "^/\\.netlify/functions": ""
-      }
-    }
-  },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.10",
     "@storybook/addon-links": "^3.4.10",

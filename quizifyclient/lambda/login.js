@@ -16,6 +16,7 @@ const generateRandomString = N =>
  * state in the cookie.
  */
 export function handler(event, context, callback) {
+    console.log(event);
     const state = generateRandomString(16);
 
     const login_url =

@@ -30,6 +30,8 @@ const getCookieValue = (cookieKey, cookieString) => {
  * is not good, redirect the user to an error page
  */
 export function handler(event, context, callback) {
+    console.log(event);
+
     const { code, state } = event.queryStringParameters;
     const storedState = getCookieValue(STATE_KEY, event.headers.cookie);
     if (state === null || state !== storedState) {
