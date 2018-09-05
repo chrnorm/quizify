@@ -37,7 +37,10 @@ const PageLanding = () => (
             <QuizifyLogo />
         </BigLogo>
         <Tagline>Test how well you know your Spotify library.</Tagline>
-        <a style={{ textDecoration: 'none' }} href={`${API_URL}/login`}>
+        <a
+            style={{ textDecoration: 'none' }}
+            href={'/.netlify/functions/login'}
+        >
             <Button>Login With Spotify To Play</Button>
         </a>
     </PageLandingWrapper>
