@@ -1,4 +1,0 @@
-[build]
-  functions = "build_lambda"
-  publish = "build"
-  command = "yarn build && yarn build:lambda"

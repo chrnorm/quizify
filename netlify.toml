@@ -1,5 +1,4 @@
 [build]
-  base    = "quizifyclient"
-  functions = "quizifyclient/build_lambda"
-  publish = "quizifyclient/build"
+  functions = "build_lambda"
+  publish = "build"
   command = "yarn build && yarn build:lambda"
