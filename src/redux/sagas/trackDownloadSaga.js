@@ -2,6 +2,8 @@ import { call, take, put, fork } from 'redux-saga/effects';
 import { AUTH_SUCCESS, ADD_TRACKS } from '../reducers';
 import SpotifyWebApi from 'spotify-web-api-js';
 
+const TRACK_LIMIT = 50;
+
 /**
  * Gets 50 tracks from the user's library at the specified offest and puts
  * the ADD_TRACKS action with the tracks as the payload
@@ -9,7 +11,10 @@ import SpotifyWebApi from 'spotify-web-api-js';
  * @param {int} offset the offset of the items returned
  */
 function* downloadTrackBatch(spotifyApi, offset) {
-    const res = yield call(spotifyApi.getMySavedTracks, { limit: 50, offset });
+    const res = yield call(spotifyApi.getMySavedTracks, {
+        limit: TRACK_LIMIT,
+        offset
+    });
     console.log(res);
     yield put({ type: ADD_TRACKS, payload: res.items });
 }
@@ -22,7 +27,7 @@ function* trackDownloadSaga() {
     const res = yield call(Spotify.getMySavedTracks);
     const totalNumTracks = res.total;
 
-    for (let i = 0; i < totalNumTracks; i += 50) {
+    for (let i = 0; i < totalNumTracks; i += TRACK_LIMIT) {
         yield fork(downloadTrackBatch, Spotify, i);
     }
 }
