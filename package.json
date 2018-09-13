@@ -4,16 +4,22 @@
   "private": true,
   "dependencies": {
     "dotenv": "^6.0.0",
+    "history": "^4.7.2",
     "immutability-helper": "^2.7.1",
     "prop-types": "^15.6.2",
     "querystring": "^0.2.0",
     "react": "^16.4.1",
     "react-audio-player": "^0.10.0",
     "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
+    "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
     "react-spring": "^5.6.9",
+    "redux": "^4.0.0",
+    "redux-saga": "^0.16.0",
     "request": "^2.88.0",
+    "spotify-web-api-js": "^1.1.1",
     "styled-components": "^3.4.5"
   },
   "scripts": {
@@ -33,6 +39,7 @@
     "@storybook/react": "^3.4.10",
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
-    "netlify-lambda": "^0.4.0"
+    "netlify-lambda": "^0.4.0",
+    "redux-saga-test-plan": "^3.7.0"
   }
 }

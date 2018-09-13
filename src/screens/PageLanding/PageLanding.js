@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import QuizifyLogo from '../../components/QuizifyLogo/QuizifyLogo';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import styled from 'styled-components';
-import API_URL from '../../util/apiUrl';
+import { AUTH_REQUEST } from '../../redux/reducers';
 import Button from '../../components/Button/Button';
 
 const PageLandingWrapper = styled.div`
@@ -30,7 +31,7 @@ const Tagline = styled.p`
     text-align: center;
 `;
 
-const PageLanding = () => (
+const PageLanding = props => (
     <PageLandingWrapper>
         <GradientBackground />
         <BigLogo>
@@ -39,11 +40,11 @@ const PageLanding = () => (
         <Tagline>Test how well you know your Spotify library.</Tagline>
         <a
             style={{ textDecoration: 'none' }}
-            href={'/.netlify/functions/login'}
+            onClick={() => props.dispatch({ type: AUTH_REQUEST })}
         >
             <Button>Login With Spotify To Play</Button>
         </a>
     </PageLandingWrapper>
 );
 
-export default PageLanding;
+export default connect()(PageLanding);
