@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import reducers from './redux/reducers';
 import loginSaga from './redux/sagas/spotifyLoginSaga';
 import trackDownloadSaga from './redux/sagas/trackDownloadSaga';
+import questionSaga from './redux/sagas/questionSaga';
 
 import PageLanding from './screens/PageLanding/PageLanding';
 import PageOnboarding from './screens/PageOnboarding/PageOnboarding';
@@ -31,6 +32,7 @@ const store = createStore(reducers, composeEnhancers(middleware));
 // run saga middleware
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(trackDownloadSaga);
+sagaMiddleware.run(questionSaga);
 
 const App = () => (
     <Provider store={store}>

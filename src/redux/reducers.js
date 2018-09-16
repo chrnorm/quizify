@@ -25,27 +25,43 @@ const authReducer = (state = initialAuthState, { type, payload }) => {
 
 export const ADD_TRACKS = 'ADD_TRACKS';
 
-const initialLibState = {
-    tracks: []
-};
+const initialLibState = [];
 
 const libraryReducer = (state = initialLibState, { type, payload }) => {
     switch (type) {
         case ADD_TRACKS: {
-            return {
+            return [
                 ...state,
-                tracks: [
-                    ...state.tracks,
-                    ...payload.map(obj => {
-                        return {
-                            name: obj.track.name,
-                            artist: obj.track.artists[0].name,
-                            id: obj.track.id,
-                            artwork: obj.track.album.images[1].url,
-                            preview_url: obj.track.preview_url
-                        };
-                    })
-                ]
+                ...payload.map(obj => {
+                    return {
+                        name: obj.track.name,
+                        artist: obj.track.artists[0].name,
+                        id: obj.track.id,
+                        artwork: obj.track.album.images[1].url,
+                        preview_url: obj.track.preview_url
+                    };
+                })
+            ];
+        }
+        default:
+            return state;
+    }
+};
+
+export const QUESTION_REQUEST = 'QUESTION_REQUEST';
+export const QUESTION_NEXT = 'QUESTION_NEXT';
+
+const initialQuestionState = {
+    answer: {},
+    fillers: []
+};
+
+const questionReducer = (state = initialQuestionState, { type, payload }) => {
+    switch (type) {
+        case QUESTION_NEXT: {
+            return {
+                answer: payload.answer,
+                fillers: payload.fillers
             };
         }
         default:
@@ -56,5 +72,6 @@ const libraryReducer = (state = initialLibState, { type, payload }) => {
 export default combineReducers({
     auth: authReducer,
     router: routerReducer,
-    library: libraryReducer
+    library: libraryReducer,
+    question: questionReducer
 });

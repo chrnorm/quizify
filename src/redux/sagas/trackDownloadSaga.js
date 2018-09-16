@@ -15,7 +15,6 @@ function* downloadTrackBatch(spotifyApi, offset) {
         limit: TRACK_LIMIT,
         offset
     });
-    console.log(res);
     yield put({ type: ADD_TRACKS, payload: res.items });
 }
 
