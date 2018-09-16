@@ -2,7 +2,6 @@ import API_URL from './apiUrl';
 
 const CLIENT_ID = process.env.REACT_APP_SPOTIFY_ID;
 const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-const STATE_KEY = 'spotify_auth_state';
 const scope = 'user-read-private user-read-email user-library-read';
 
 /** Generates a random string containing numbers and letters of N characters */

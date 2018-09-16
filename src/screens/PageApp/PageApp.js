@@ -5,9 +5,9 @@ import TrackGrid from './TrackGrid/TrackGrid';
 import NextButton from './NextButton/NextButton';
 import Answer from './Answer/Answer';
 import Api from '../../util/apiAdapter';
-import shuffle from '../../util/shuffle';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
-import apiAdapter from '../../util/apiAdapter';
+import { QUESTION_REQUEST } from '../../redux/reducers';
+import { connect } from 'react-redux';
 
 const SECONDS_PER_QUESTION = 15;
 
@@ -26,26 +26,20 @@ class PageApp extends Component {
             lives: 3,
             stats: null
         };
+
+        this.getNextQuestion();
     }
 
-    /**
-     * Fetch the first two questions when component is first mounted
-     */
-    componentDidMount = async () => {
-        await apiAdapter.reset();
-        const question = await this.getNextQuestion();
-        this.setState({ currentTracks: question });
-
-        const nextQuestion = await this.getNextQuestion();
-        this.setState({ nextTracks: nextQuestion });
+    getNextQuestion = () => {
+        this.props.dispatch({ type: QUESTION_REQUEST });
     };
 
-    componentDidUpdate = (_, prevState) => {
-        if (this.state.currentTracks !== prevState.currentTracks) {
+    componentDidUpdate = prevProps => {
+        if (this.props.question.tracks !== prevProps.question.tracks) {
             setTimeout(() => {
                 this.setState({
                     allowedToAnswer: true,
-                    playingAudio: this.state.currentTracks.audio,
+                    playingAudio: this.props.question.answer.preview_url,
                     timeRemaining: SECONDS_PER_QUESTION
                 });
                 this.updateTimeRemaining();
@@ -69,21 +63,6 @@ class PageApp extends Component {
         }
     };
 
-    /**
-     * Pre-fetch the next question from the API to ensure no delays between questions
-     */
-    getNextQuestion = async () => {
-        const res = await Api.getQuestion();
-        console.log(res);
-        const tracks = [res.answer, ...res.fillers];
-        shuffle(tracks);
-        return {
-            tracks,
-            answer: res.answer,
-            audio: res.audio
-        };
-    };
-
     updateScore = async (correct, timeRemaining) => {
         const res = await Api.getAnswer(correct, timeRemaining);
         console.log(res);
@@ -93,7 +72,7 @@ class PageApp extends Component {
     onSelectTrack = id => {
         console.log('track selected:', id);
         let wasAnswerCorrect;
-        if (id !== this.state.currentTracks.answer.id) {
+        if (id !== this.props.question.answer.id) {
             const newlives = this.state.lives - 1;
             if (newlives === 0) {
                 console.log('out of lives!!');
@@ -135,8 +114,8 @@ class PageApp extends Component {
 
     render() {
         const correctAnswer =
-            this.state.currentTracks.answer &&
-            this.state.currentTracks.answer.id === this.state.selectedTrackId;
+            this.props.question.answer &&
+            this.props.question.answer.id === this.state.selectedTrackId;
 
         return (
             <div>
@@ -151,15 +130,15 @@ class PageApp extends Component {
                 />
                 <TrackGrid
                     displayingAnswer={this.state.displayingAnswer}
-                    tracks={this.state.currentTracks.tracks}
-                    correctTrack={this.state.currentTracks.answer}
+                    tracks={this.props.question.tracks}
+                    correctTrack={this.props.question.answer}
                     onSelectTrack={this.onSelectTrack}
                     allowTrackSelection={this.state.allowedToAnswer}
                 >
                     {this.state.displayingAnswer ? (
                         <Fragment>
                             <Answer
-                                correctTrack={this.state.currentTracks.answer}
+                                correctTrack={this.props.question.answer}
                                 correctAnswer={correctAnswer}
                             />
                             <NextButton
@@ -175,4 +154,8 @@ class PageApp extends Component {
     }
 }
 
-export default PageApp;
+const mapStateToProps = state => ({
+    question: state.question
+});
+
+export default connect(mapStateToProps)(PageApp);

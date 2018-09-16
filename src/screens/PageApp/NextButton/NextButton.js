@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Spring } from 'react-spring';
-import Button from '../../../components/Button/Button';
 import PropTypes from 'prop-types';
 
 const NextButtonWrapper = styled.div`

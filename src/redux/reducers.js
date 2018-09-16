@@ -35,7 +35,7 @@ const libraryReducer = (state = initialLibState, { type, payload }) => {
                 ...payload.map(obj => {
                     return {
                         name: obj.track.name,
-                        artist: obj.track.artists[0].name,
+                        artists: obj.track.artists.map(a => a.name),
                         id: obj.track.id,
                         artwork: obj.track.album.images[1].url,
                         preview_url: obj.track.preview_url
@@ -52,8 +52,8 @@ export const QUESTION_REQUEST = 'QUESTION_REQUEST';
 export const QUESTION_NEXT = 'QUESTION_NEXT';
 
 const initialQuestionState = {
-    answer: {},
-    fillers: []
+    answer: null,
+    tracks: null
 };
 
 const questionReducer = (state = initialQuestionState, { type, payload }) => {
@@ -61,7 +61,7 @@ const questionReducer = (state = initialQuestionState, { type, payload }) => {
         case QUESTION_NEXT: {
             return {
                 answer: payload.answer,
-                fillers: payload.fillers
+                tracks: payload.tracks
             };
         }
         default:

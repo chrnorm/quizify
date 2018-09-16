@@ -8,9 +8,10 @@ import { QUESTION_REQUEST, QUESTION_NEXT } from '../reducers';
  * store that have preview urls. Puts the result into the store.
  */
 function* getNextQuestion() {
-    const tracks = yield select(selectors.getTracksWithPreview);
-    const [answer, ...fillers] = yield call(sampleSize, tracks, 6);
-    yield put({ type: QUESTION_NEXT, payload: { answer, fillers } });
+    const trackPool = yield select(selectors.getTracksWithPreview);
+    const [answer, ...fillers] = yield call(sampleSize, trackPool, 6);
+    const tracks = yield call(sampleSize, [answer, ...fillers], 6);
+    yield put({ type: QUESTION_NEXT, payload: { answer, tracks } });
 }
 
 function* questionSaga() {

@@ -76,7 +76,7 @@ class TrackGrid extends Component {
     };
 
     renderTracks = () => {
-        return this.props.tracks
+        return this.props.tracks && this.props.tracks.length > 0
             ? this.props.tracks.map((el, i) => {
                   const isAnswer =
                       this.props.correctTrack &&
