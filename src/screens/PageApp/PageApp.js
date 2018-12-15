@@ -21,7 +21,7 @@ class PageApp extends Component {
             selectedTrackId: null,
             displayingAnswer: false,
             timeRemaining: SECONDS_PER_QUESTION,
-            lives: 3
+            lives: 1
         };
 
         this.getNextQuestion();
