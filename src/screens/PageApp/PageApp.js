@@ -16,15 +16,12 @@ class PageApp extends Component {
         super(props);
 
         this.state = {
-            currentTracks: { tracks: null, answer: null, audio: null },
-            nextTracks: null,
             allowedToAnswer: false,
             playingAudio: null,
             selectedTrackId: null,
             displayingAnswer: false,
             timeRemaining: SECONDS_PER_QUESTION,
-            lives: 3,
-            stats: null
+            lives: 3
         };
 
         this.getNextQuestion();
@@ -63,27 +60,15 @@ class PageApp extends Component {
         }
     };
 
-    updateScore = async (correct, timeRemaining) => {
-        const res = await Api.getAnswer(correct, timeRemaining);
-        console.log(res);
-        this.setState({ stats: res });
-    };
-
     onSelectTrack = id => {
         console.log('track selected:', id);
-        let wasAnswerCorrect;
         if (id !== this.props.question.answer.id) {
             const newlives = this.state.lives - 1;
             if (newlives === 0) {
                 console.log('out of lives!!');
             }
             this.setState({ lives: newlives });
-            wasAnswerCorrect = false;
-        } else {
-            wasAnswerCorrect = true;
         }
-
-        this.updateScore(wasAnswerCorrect, this.state.timeRemaining);
         this.setState({
             displayingAnswer: true,
             selectedTrackId: id,
@@ -100,14 +85,10 @@ class PageApp extends Component {
         } else {
             this.setState(
                 {
-                    currentTracks: this.state.nextTracks,
                     selectedTrackId: null,
                     displayingAnswer: false
                 },
-                async () => {
-                    const nextTracks = await this.getNextQuestion();
-                    this.setState({ nextTracks });
-                }
+                this.getNextQuestion
             );
         }
     };
