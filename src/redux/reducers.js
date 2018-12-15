@@ -69,9 +69,30 @@ const questionReducer = (state = initialQuestionState, { type, payload }) => {
     }
 };
 
+export const ANSWER_CORRECT = 'ANSWER_CORRECT';
+
+const initialScoreState = {
+    points: 0,
+    answersCorrect: 0
+};
+
+const scoreReducer = (state = initialScoreState, { type, payload }) => {
+    switch (type) {
+        case ANSWER_CORRECT: {
+            return {
+                points: 0,
+                answersCorrect: state.answersCorrect + 1
+            };
+        }
+        default:
+            return state;
+    }
+};
+
 export default combineReducers({
     auth: authReducer,
     router: routerReducer,
     library: libraryReducer,
-    question: questionReducer
+    question: questionReducer,
+    score: scoreReducer
 });

@@ -4,9 +4,8 @@ import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
 import NextButton from './NextButton/NextButton';
 import Answer from './Answer/Answer';
-import Api from '../../util/apiAdapter';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
-import { QUESTION_REQUEST } from '../../redux/reducers';
+import { QUESTION_REQUEST, ANSWER_CORRECT } from '../../redux/reducers';
 import { connect } from 'react-redux';
 
 const SECONDS_PER_QUESTION = 15;
@@ -68,6 +67,8 @@ class PageApp extends Component {
                 console.log('out of lives!!');
             }
             this.setState({ lives: newlives });
+        } else {
+            this.props.dispatch({ type: ANSWER_CORRECT });
         }
         this.setState({
             displayingAnswer: true,

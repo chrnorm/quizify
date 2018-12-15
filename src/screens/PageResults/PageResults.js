@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ApiAdapter from '../../util/apiAdapter';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import Button from '../../components/Button/Button';
 import NavBar from '../../components/NavBar/NavBar';
@@ -26,11 +26,6 @@ class PageResults extends Component {
         }, 2250);
     }
 
-    componentDidMount = async () => {
-        const stats = await ApiAdapter.getStats();
-        this.setState({ stats });
-    };
-
     render() {
         return (
             <div>
@@ -43,10 +38,10 @@ class PageResults extends Component {
                         }`}
                     >
                         <h1 className="ScoreTitle">
-                            Your Quizify Score: {this.state.stats.totalScore}
+                            Your Quizify Score: {this.props.score.points}
                         </h1>
                         <div className="ScoreDetails">
-                            Based on {this.state.stats.correctAnswers} correct
+                            Based on {this.props.score.answersCorrect} correct
                             song choices
                         </div>
                     </div>
@@ -82,4 +77,8 @@ class PageResults extends Component {
     }
 }
 
-export default PageResults;
+const mapStateToProps = state => ({
+    score: state.score
+});
+
+export default connect(mapStateToProps)(PageResults);
