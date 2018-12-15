@@ -1,4 +1,7 @@
-.ResultsPageContents {
+import styled from 'styled-components';
+import { animated } from 'react-spring';
+
+export const ResultsPageContents = styled.div`
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -8,49 +11,36 @@
     justify-content: center;
     align-items: center;
     color: white;
-}
+`;
 
-.ResultsText {
+export const ResultsText = styled(animated.div)`
     margin-bottom: 150px;
     display: flex;
     flex-direction: column;
-    transition: all 0.2s ease;
-    opacity: 0;
-}
+`;
 
-h1.ScoreTitle {
+export const ScoreTitle = styled.h1`
     font-size: 3em;
     margin: 0;
-}
+`;
 
-.ScoreDetails {
-    /* margin-top: 20px; */
+export const ScoreDetails = styled.div`
     margin: 20px auto;
     font-size: 1.1em;
-}
+`;
 
-.ResultsButtons {
+export const ResultsButtons = styled.div`
     display: flex;
     flex-direction: row;
-    /* align-content: center; */
-}
+`;
 
-.TryAgain {
+export const TryAgain = styled(animated.div)`
     display: inline-block;
     align-self: center;
     margin-left: 35px;
     text-transform: uppercase;
     font-size: 20px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    opacity: 0;
-}
+`;
 
-.ShareButton {
-    transition: all 0.2s ease;
-    opacity: 0;
-}
-
-.visible {
-    opacity: 1;
-}
+export const ShareButton = styled(animated.div)``;

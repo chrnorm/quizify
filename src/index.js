@@ -14,7 +14,7 @@ import questionSaga from './redux/sagas/questionSaga';
 import PageLanding from './screens/PageLanding/PageLanding';
 import PageOnboarding from './screens/PageOnboarding/PageOnboarding';
 import PageApp from './screens/PageApp/PageApp';
-import PageResults from './screens/PageResults/PageResults';
+import PageResults from './screens/PageResults';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
