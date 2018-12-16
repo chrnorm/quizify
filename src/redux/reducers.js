@@ -70,19 +70,32 @@ const questionReducer = (state = initialQuestionState, { type, payload }) => {
 };
 
 export const ANSWER_CORRECT = 'ANSWER_CORRECT';
+export const ANSWER_INCORRECT = 'ANSWER_INCORRECT';
+export const RESET_SCORE = 'RESET_SCORE';
 
 const initialScoreState = {
     points: 0,
-    answersCorrect: 0
+    answersCorrect: 0,
+    gotAnAnswerWrong: false
 };
 
 const scoreReducer = (state = initialScoreState, { type, payload }) => {
     switch (type) {
         case ANSWER_CORRECT: {
             return {
+                ...state,
                 points: 0,
                 answersCorrect: state.answersCorrect + 1
             };
+        }
+        case ANSWER_INCORRECT: {
+            return {
+                ...state,
+                gotAnAnswerWrong: true
+            };
+        }
+        case RESET_SCORE: {
+            return initialScoreState;
         }
         default:
             return state;

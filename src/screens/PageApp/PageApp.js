@@ -4,7 +4,12 @@ import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
 import Answer from './Answer/Answer';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
-import { QUESTION_REQUEST, ANSWER_CORRECT } from '../../redux/reducers';
+import {
+    QUESTION_REQUEST,
+    ANSWER_CORRECT,
+    ANSWER_INCORRECT,
+    RESET_SCORE
+} from '../../redux/reducers';
 import { connect } from 'react-redux';
 
 const SECONDS_PER_QUESTION = 15;
@@ -21,7 +26,7 @@ class PageApp extends Component {
             timeRemaining: SECONDS_PER_QUESTION,
             lives: 1
         };
-
+        this.props.dispatch({ type: RESET_SCORE });
         this.getNextQuestion();
     }
 
@@ -60,14 +65,10 @@ class PageApp extends Component {
 
     onSelectTrack = id => {
         console.log('track selected:', id);
-        if (id !== this.props.question.answer.id) {
-            const newlives = this.state.lives - 1;
-            if (newlives === 0) {
-                console.log('out of lives!!');
-            }
-            this.setState({ lives: newlives });
-        } else {
+        if (id === this.props.question.answer.id) {
             this.props.dispatch({ type: ANSWER_CORRECT });
+        } else {
+            this.props.dispatch({ type: ANSWER_INCORRECT });
         }
         this.setState({
             displayingAnswer: true,
@@ -80,14 +81,11 @@ class PageApp extends Component {
     };
 
     getNextScreen = () => {
-        if (this.state.lives === 0) {
+        if (this.props.score.gotAnAnswerWrong) {
             this.props.history.push('/results');
         } else {
             this.setState(
-                {
-                    selectedTrackId: null,
-                    displayingAnswer: false
-                },
+                { selectedTrackId: null, displayingAnswer: false },
                 this.getNextQuestion
             );
         }
@@ -129,7 +127,8 @@ class PageApp extends Component {
 }
 
 const mapStateToProps = state => ({
-    question: state.question
+    question: state.question,
+    score: state.score
 });
 
 export default connect(mapStateToProps)(PageApp);
