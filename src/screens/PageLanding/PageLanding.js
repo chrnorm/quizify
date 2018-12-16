@@ -17,12 +17,6 @@ const PageLandingWrapper = styled.div`
     align-items: center;
 `;
 
-const BigLogo = styled.div`
-    font-size: 4em;
-    margin-bottom: 44px;
-    color: white;
-`;
-
 const Tagline = styled.p`
     font-size: 1.6em;
     margin-top: 0;
@@ -34,16 +28,11 @@ const Tagline = styled.p`
 const PageLanding = props => (
     <PageLandingWrapper>
         <GradientBackground />
-        <BigLogo>
-            <QuizifyLogo />
-        </BigLogo>
+        <QuizifyLogo big />
         <Tagline>Test how well you know your Spotify library.</Tagline>
-        <a
-            style={{ textDecoration: 'none' }}
-            onClick={() => props.dispatch({ type: AUTH_REQUEST })}
-        >
-            <Button>Login With Spotify To Play</Button>
-        </a>
+        <Button onClick={() => props.dispatch({ type: AUTH_REQUEST })}>
+            Login With Spotify To Play
+        </Button>
     </PageLandingWrapper>
 );
 
