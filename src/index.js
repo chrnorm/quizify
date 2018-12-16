@@ -10,6 +10,7 @@ import reducers from './redux/reducers';
 import loginSaga from './redux/sagas/spotifyLoginSaga';
 import trackDownloadSaga from './redux/sagas/trackDownloadSaga';
 import questionSaga from './redux/sagas/questionSaga';
+import PrivateRoute from './util/PrivateRoute';
 
 import PageLanding from './screens/PageLanding/PageLanding';
 import PageOnboarding from './screens/PageOnboarding/PageOnboarding';
@@ -39,9 +40,9 @@ const App = () => (
         <ConnectedRouter history={history}>
             <Switch>
                 <Route exact path="/" component={PageLanding} />
-                <Route path="/start" component={PageOnboarding} />
-                <Route path="/app" component={PageApp} />
-                <Route path="/results" component={PageResults} />
+                <PrivateRoute path="/start" component={PageOnboarding} />
+                <PrivateRoute path="/app" component={PageApp} />
+                <PrivateRoute path="/results" component={PageResults} />
             </Switch>
         </ConnectedRouter>
     </Provider>

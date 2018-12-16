@@ -7,13 +7,14 @@ export const AUTH_FAILURE = 'AUTH_FAILURE';
 
 const initialAuthState = {
     token: null,
-    error: null
+    error: null,
+    isLoggedIn: false
 };
 
 const authReducer = (state = initialAuthState, { type, payload }) => {
     switch (type) {
         case AUTH_SUCCESS: {
-            return { ...state, token: payload };
+            return { ...state, token: payload, isLoggedIn: true };
         }
         case AUTH_FAILURE: {
             return { ...state, error: payload };
