@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
-import NextButton from './NextButton/NextButton';
 import Answer from './Answer/Answer';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
 import { QUESTION_REQUEST, ANSWER_CORRECT } from '../../redux/reducers';
@@ -118,17 +117,10 @@ class PageApp extends Component {
                     allowTrackSelection={this.state.allowedToAnswer}
                 >
                     {this.state.displayingAnswer ? (
-                        <Fragment>
-                            <Answer
-                                correctTrack={this.props.question.answer}
-                                correctAnswer={correctAnswer}
-                            />
-                            <NextButton
-                                onClick={this.getNextScreen}
-                                correctAnswer={correctAnswer}
-                                lives={this.state.lives}
-                            />
-                        </Fragment>
+                        <Answer
+                            correctTrack={this.props.question.answer}
+                            correctAnswer={correctAnswer}
+                        />
                     ) : null}
                 </TrackGrid>
             </div>
