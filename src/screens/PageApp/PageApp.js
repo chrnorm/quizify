@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
@@ -99,7 +99,7 @@ class PageApp extends Component {
             this.props.question.answer.id === this.state.selectedTrackId;
 
         return (
-            <div>
+            <>
                 <GradientBackground />
                 <NavBar />
                 <AudioPlayer
@@ -123,7 +123,7 @@ class PageApp extends Component {
                         />
                     ) : null}
                 </TrackGrid>
-            </div>
+            </>
         );
     }
 }
