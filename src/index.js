@@ -15,7 +15,7 @@ import PrivateRoute from './util/PrivateRoute';
 
 import PageLanding from './screens/PageLanding/PageLanding';
 import PageOnboarding from './screens/PageOnboarding/PageOnboarding';
-import PageApp from './screens/PageApp/PageApp';
+import PageApp from './screens/PageApp';
 import PageResults from './screens/PageResults';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';

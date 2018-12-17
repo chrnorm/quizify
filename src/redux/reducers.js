@@ -74,18 +74,28 @@ export const ANSWER_CORRECT = 'ANSWER_CORRECT';
 export const ANSWER_INCORRECT = 'ANSWER_INCORRECT';
 export const RESET_SCORE = 'RESET_SCORE';
 
+/**
+ * Calculates a score for the question based on the remaining time
+ * @param {Number} timeRemaining the time remaining in the question when it was answered by the user
+ */
+const getScore = timeRemaining => {
+    if (timeRemaining > 13) return 200;
+    if (timeRemaining > 10) return 100;
+    return 50;
+};
+
 const initialScoreState = {
     points: 0,
     answersCorrect: 0,
     gotAnAnswerWrong: false
 };
 
-const scoreReducer = (state = initialScoreState, { type, payload }) => {
+const scoreReducer = (state = initialScoreState, { type, timeRemaining }) => {
     switch (type) {
         case ANSWER_CORRECT: {
             return {
                 ...state,
-                points: 0,
+                points: state.points + getScore(timeRemaining),
                 answersCorrect: state.answersCorrect + 1
             };
         }

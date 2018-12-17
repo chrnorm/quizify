@@ -3,6 +3,7 @@ import GradientBackground from '../../components/GradientBackground/GradientBack
 import TrackGrid from './TrackGrid/TrackGrid';
 import Answer from './Answer/Answer';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
+import ScoreTracker from '../../components/ScoreTracker/ScoreTracker';
 import { WatermarkLogo } from '../../components/QuizifyLogo/QuizifyLogo';
 import {
     QUESTION_REQUEST,
@@ -11,6 +12,7 @@ import {
     RESET_SCORE
 } from '../../redux/reducers';
 import { connect } from 'react-redux';
+import * as S from './styles';
 
 const SECONDS_PER_QUESTION = 15;
 
@@ -66,7 +68,10 @@ class PageApp extends Component {
     onSelectTrack = id => {
         console.log('track selected:', id);
         if (id === this.props.question.answer.id) {
-            this.props.dispatch({ type: ANSWER_CORRECT });
+            this.props.dispatch({
+                type: ANSWER_CORRECT,
+                timeRemaining: this.state.timeRemaining
+            });
         } else {
             this.props.dispatch({ type: ANSWER_INCORRECT });
         }
@@ -121,6 +126,9 @@ class PageApp extends Component {
                         />
                     ) : null}
                 </TrackGrid>
+                <S.ScoreWrapper>
+                    <ScoreTracker score={this.props.score.points} />
+                </S.ScoreWrapper>
             </>
         );
     }

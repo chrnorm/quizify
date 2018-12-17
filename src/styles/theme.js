@@ -67,7 +67,7 @@ export const theme = {
         ],
         brandBlue: ['#153E68', '#5379A0', '#456587', '#235588'],
         brandCyan: ['#428F99'],
-        brandGrey: ['#A3B3C6'],
+        brandGrey: ['#A3B3C6', '#4E657F', '#869AAF'],
         brandRed: ['#992A24', '#AE5D58']
     }
 };
