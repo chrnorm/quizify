@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import reducers from './redux/reducers';
@@ -18,6 +19,7 @@ import PageApp from './screens/PageApp/PageApp';
 import PageResults from './screens/PageResults';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+import { theme } from './styles/theme';
 
 // redux middlewares
 const history = createHistory();
@@ -37,14 +39,16 @@ sagaMiddleware.run(questionSaga);
 
 const App = () => (
     <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <Switch>
-                <Route exact path="/" component={PageLanding} />
-                <PrivateRoute path="/start" component={PageOnboarding} />
-                <PrivateRoute path="/app" component={PageApp} />
-                <PrivateRoute path="/results" component={PageResults} />
-            </Switch>
-        </ConnectedRouter>
+        <ThemeProvider theme={theme}>
+            <ConnectedRouter history={history}>
+                <Switch>
+                    <Route exact path="/" component={PageLanding} />
+                    <PrivateRoute path="/start" component={PageOnboarding} />
+                    <PrivateRoute path="/app" component={PageApp} />
+                    <PrivateRoute path="/results" component={PageResults} />
+                </Switch>
+            </ConnectedRouter>
+        </ThemeProvider>
     </Provider>
 );
 

@@ -22,11 +22,13 @@ export const ResultsText = styled(animated.div)`
 export const ScoreTitle = styled.h1`
     font-size: 3em;
     margin: 0;
+    color: ${props => props.theme.colors.brandBlue[3]};
 `;
 
 export const ScoreDetails = styled.div`
     margin: 20px auto;
     font-size: 1.1em;
+    color: ${props => props.theme.colors.brandBlue[1]};
 `;
 
 export const ResultsButtons = styled.div`

@@ -18,12 +18,19 @@ const AnswerContents = styled.div`
 const AnswerHeading = styled.div`
     margin-top: -20px;
     font-size: 5em;
-    color: white;
+    font-weight: 600;
+    color: ${props =>
+        props.correct
+            ? props.theme.colors.brandBlue[3]
+            : props.theme.colors.brandRed[0]};
     transition: all 0.2s ease;
 `;
 
 const CorrectTrack = styled.div`
-    color: #eaeaea;
+    color: ${props =>
+        props.correct
+            ? props.theme.colors.brandBlue[2]
+            : props.theme.colors.brandRed[1]};
     margin-left: 15px;
     transition: all 0.2s ease;
 `;
@@ -33,14 +40,14 @@ const Answer = props => (
         <AnswerContents>
             <Spring delay={1000} from={{ opacity: 0 }} to={{ opacity: 1 }}>
                 {styles => (
-                    <AnswerHeading style={styles}>
+                    <AnswerHeading style={styles} correct={props.correctAnswer}>
                         {props.correctAnswer ? 'Correct!' : 'Incorrect!'}
                     </AnswerHeading>
                 )}
             </Spring>
             <Spring delay={1100} from={{ opacity: 0 }} to={{ opacity: 1 }}>
                 {styles => (
-                    <CorrectTrack style={styles}>
+                    <CorrectTrack style={styles} correct={props.correctAnswer}>
                         {props.correctTrack.name} by{' '}
                         {props.correctTrack.artists[0]}
                     </CorrectTrack>

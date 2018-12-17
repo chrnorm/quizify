@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import QuizifyLogo from '../../components/QuizifyLogo/QuizifyLogo';
+import { QuizifyLogo } from '../../components/QuizifyLogo/QuizifyLogo';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import styled from 'styled-components';
 import { AUTH_REQUEST } from '../../redux/reducers';
+import { Text } from 'rebass';
 import Button from '../../components/Button/Button';
 
 const PageLandingWrapper = styled.div`
@@ -17,21 +18,15 @@ const PageLandingWrapper = styled.div`
     align-items: center;
 `;
 
-const Tagline = styled.p`
-    font-size: 1.6em;
-    margin-top: 0;
-    margin-bottom: 226px;
-    color: white;
-    text-align: center;
-`;
-
 const PageLanding = props => (
     <PageLandingWrapper>
         <GradientBackground />
         <QuizifyLogo big />
-        <Tagline>Test how well you know your Spotify library.</Tagline>
+        <Text color="brandBlue.1" mb={6} fontSize={4} as={'p'}>
+            Test how well you know your Spotify library.
+        </Text>
         <Button onClick={() => props.dispatch({ type: AUTH_REQUEST })}>
-            Login With Spotify To Play
+            Play Now
         </Button>
     </PageLandingWrapper>
 );

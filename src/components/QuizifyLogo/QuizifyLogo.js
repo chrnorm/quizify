@@ -1,22 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Text } from 'rebass';
+import { Link } from 'react-router-dom';
 
-const QuizifyText = styled.div`
-    font-family: 'Montserrat', sans-serif;
-    ${props =>
-        props.big
-            ? `
-    font-size: 4em;
-    margin-bottom: 44px;
-    color: white;
-    `
-            : null}
-`;
-
-const QuizifyLogo = ({ big }) => (
-    <QuizifyText className="noselect" big={big}>
+export const QuizifyLogo = () => (
+    <Text
+        fontFamily="logo"
+        fontSize={7}
+        color="brandBlue.0"
+        className="noselect"
+        mb={4}
+        as={'h1'}
+    >
         Quizify
-    </QuizifyText>
+    </Text>
 );
 
-export default QuizifyLogo;
+const WatermarkText = styled(Text)`
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+`;
+
+export const WatermarkLogo = () => (
+    <Link to={'/'}>
+        <WatermarkText
+            fontFamily="logo"
+            fontSize={4}
+            color="brandGrey.0"
+            m={0}
+            className="noselect"
+            as={'h2'}
+        >
+            Quizify
+        </WatermarkText>
+    </Link>
+);

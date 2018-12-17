@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
-import NavBar from '../../components/NavBar/NavBar';
 import TrackGrid from './TrackGrid/TrackGrid';
 import Answer from './Answer/Answer';
 import AudioPlayer from './AudioPlayer/AudioPlayer';
+import { WatermarkLogo } from '../../components/QuizifyLogo/QuizifyLogo';
 import {
     QUESTION_REQUEST,
     ANSWER_CORRECT,
@@ -99,7 +99,7 @@ class PageApp extends Component {
         return (
             <>
                 <GradientBackground />
-                <NavBar />
+                <WatermarkLogo />
                 <AudioPlayer
                     src={this.state.playingAudio}
                     play={

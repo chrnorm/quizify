@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import QuizifyLogo from '../QuizifyLogo/QuizifyLogo';
+import { QuizifyLogo } from '../QuizifyLogo/QuizifyLogo';
 
 const NavBox = styled.div`
     position: absolute;

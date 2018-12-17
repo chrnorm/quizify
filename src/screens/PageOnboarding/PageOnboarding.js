@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import FlowBox from './FlowBox/FlowBox';
-import NavBar from '../../components/NavBar/NavBar';
+import { WatermarkLogo } from '../../components/QuizifyLogo/QuizifyLogo';
 import './PageOnboarding.css';
 
 class PageOnboarding extends Component {
@@ -49,7 +49,7 @@ class PageOnboarding extends Component {
         return (
             <div>
                 <GradientBackground />
-                <NavBar />
+                <WatermarkLogo />
                 <FlowBox
                     num={3}
                     selected={this.state.selected}

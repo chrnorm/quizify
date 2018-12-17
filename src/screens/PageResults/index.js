@@ -5,7 +5,8 @@ import { animated } from 'react-spring';
 import withDelayedFadeIn from '../../util/withDelayedFadeIn';
 import GradientBackground from '../../components/GradientBackground/GradientBackground';
 import Button from '../../components/Button/Button';
-import NavBar from '../../components/NavBar/NavBar';
+import { Text } from 'rebass';
+import { WatermarkLogo } from '../../components/QuizifyLogo/QuizifyLogo';
 import * as S from './styles';
 
 const TextWithFadeIn = withDelayedFadeIn(S.ResultsText, 50);
@@ -17,7 +18,7 @@ class PageResults extends Component {
         return (
             <div>
                 <GradientBackground />
-                <NavBar />
+                <WatermarkLogo />
                 <S.ResultsPageContents>
                     <TextWithFadeIn>
                         <S.ScoreTitle>
@@ -33,14 +34,8 @@ class PageResults extends Component {
                             <Button>Share Your Score</Button>
                         </ShareButtonWithFadeIn>
                         <TryAgainButtonWithFadeIn>
-                            <Link
-                                style={{
-                                    textDecoration: 'none',
-                                    color: 'white'
-                                }}
-                                to="/app"
-                            >
-                                Try Again
+                            <Link to="/app" style={{ textDecoration: 'none' }}>
+                                <Text color="brandBlue.3">Try Again</Text>
                             </Link>
                         </TryAgainButtonWithFadeIn>
                     </S.ResultsButtons>
