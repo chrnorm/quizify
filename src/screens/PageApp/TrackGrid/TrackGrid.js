@@ -94,7 +94,10 @@ class TrackGrid extends Component {
                           <Track
                               info={el}
                               key={el.id}
-                              showingNames={this.state.showingNames}
+                              showingNames={
+                                  !this.props.displayingAnswer &&
+                                  this.state.showingNames
+                              }
                               handleClick={this.handleClick}
                               selectable={this.props.allowTrackSelection}
                           />
