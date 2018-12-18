@@ -18,6 +18,6 @@ export const spotifyLoginApi = {
         );
     },
     redirectTo(newUrl) {
-        window.location.href = newUrl;
+        window.location.assign(newUrl);
     }
 };
