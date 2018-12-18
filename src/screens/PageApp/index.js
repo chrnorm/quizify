@@ -83,7 +83,7 @@ class PageApp extends Component {
         });
         setTimeout(() => {
             this.getNextScreen();
-        }, 6000);
+        }, 4500);
     };
 
     getNextScreen = () => {
