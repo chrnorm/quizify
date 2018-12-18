@@ -26,8 +26,7 @@ class PageApp extends Component {
             playingAudio: null,
             selectedTrackId: null,
             displayingAnswer: false,
-            timeRemaining: SECONDS_PER_QUESTION,
-            lives: 1
+            timeRemaining: SECONDS_PER_QUESTION
         };
         this.props.dispatch({ type: RESET_SCORE });
         this.getNextQuestion();
