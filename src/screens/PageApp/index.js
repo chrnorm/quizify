@@ -36,10 +36,13 @@ class PageApp extends Component {
 
     componentDidUpdate = prevProps => {
         if (this.props.question.tracks !== prevProps.question.tracks) {
+            // update the audio url immediately to allow the <audio> element to start loading the new song
+            this.setState({
+                playingAudio: this.props.question.answer.preview_url
+            });
             setTimeout(() => {
                 this.setState({
                     allowedToAnswer: true,
-                    playingAudio: this.props.question.answer.preview_url,
                     timeRemaining: this.props.score.timePerQuestion
                 });
                 this.updateTimeRemaining();
