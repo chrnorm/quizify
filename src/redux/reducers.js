@@ -77,17 +77,29 @@ export const RESET_SCORE = 'RESET_SCORE';
 /**
  * Calculates a score for the question based on the remaining time
  * @param {Number} timeRemaining the time remaining in the question when it was answered by the user
+ * @param {Number} timePerQuestion the time given for the particular question
  */
-const getScore = timeRemaining => {
-    if (timeRemaining > 13) return 200;
-    if (timeRemaining > 10) return 100;
+const getScore = (timeRemaining, timePerQuestion) => {
+    if (timeRemaining > timePerQuestion - 2) return 200;
+    if (timeRemaining > timePerQuestion - 5) return 100;
     return 50;
 };
+
+const initialTimePerQuestion = 15;
+const minTimePerQuestion = 3;
+
+/**
+ * Reduces the question time, but ensures it is not smaller than a minimum value
+ * @param {Number} currentTime the current question time
+ */
+const decreaseTime = currentTime =>
+    Math.max(currentTime - 2, minTimePerQuestion);
 
 const initialScoreState = {
     points: 0,
     answersCorrect: 0,
-    gotAnAnswerWrong: false
+    gotAnAnswerWrong: false,
+    timePerQuestion: initialTimePerQuestion
 };
 
 const scoreReducer = (state = initialScoreState, { type, timeRemaining }) => {
@@ -95,8 +107,11 @@ const scoreReducer = (state = initialScoreState, { type, timeRemaining }) => {
         case ANSWER_CORRECT: {
             return {
                 ...state,
-                points: state.points + getScore(timeRemaining),
-                answersCorrect: state.answersCorrect + 1
+                points:
+                    state.points +
+                    getScore(timeRemaining, state.timePerQuestion),
+                answersCorrect: state.answersCorrect + 1,
+                timePerQuestion: decreaseTime(state.timePerQuestion)
             };
         }
         case ANSWER_INCORRECT: {

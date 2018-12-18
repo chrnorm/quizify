@@ -15,8 +15,6 @@ import { connect } from 'react-redux';
 import * as S from './styles';
 import CountdownBar from '../../components/CountdownBar/CountdownBar';
 
-const SECONDS_PER_QUESTION = 15;
-
 class PageApp extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +24,7 @@ class PageApp extends Component {
             playingAudio: null,
             selectedTrackId: null,
             displayingAnswer: false,
-            timeRemaining: SECONDS_PER_QUESTION
+            timeRemaining: this.props.score.timePerQuestion
         };
         this.props.dispatch({ type: RESET_SCORE });
         this.getNextQuestion();
@@ -42,7 +40,7 @@ class PageApp extends Component {
                 this.setState({
                     allowedToAnswer: true,
                     playingAudio: this.props.question.answer.preview_url,
-                    timeRemaining: SECONDS_PER_QUESTION
+                    timeRemaining: this.props.score.timePerQuestion
                 });
                 this.updateTimeRemaining();
             }, 1000);
@@ -116,7 +114,8 @@ class PageApp extends Component {
                     {this.state.allowedToAnswer ? (
                         <CountdownBar
                             fraction={
-                                this.state.timeRemaining / SECONDS_PER_QUESTION
+                                this.state.timeRemaining /
+                                this.props.score.timePerQuestion
                             }
                         />
                     ) : null}
