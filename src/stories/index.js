@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, number } from '@storybook/addon-knobs';
+import { withKnobs, number, boolean } from '@storybook/addon-knobs';
 
 import CountdownBar from '../components/CountdownBar/CountdownBar';
 
@@ -14,5 +14,6 @@ countdownStories.add('Default', () => {
         max: 1,
         step: 0.1
     });
-    return <CountdownBar fraction={fraction} />;
+    const show = boolean('Show', true);
+    return <CountdownBar show={show} fraction={fraction} />;
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Transition } from 'react-spring';
 import constrain from '../../util/constrain';
 
 const BAR_WIDTH = 600;
@@ -18,10 +19,25 @@ const Bar = styled.div`
     border-radius: 1px;
 `;
 
-const CountdownBar = ({ fraction }) => {
+const CountdownBar = ({ fraction, show }) => {
     return (
         <Wrapper>
-            <Bar width={constrain(fraction, 0, 1) * BAR_WIDTH} />
+            <Transition
+                items={show}
+                from={{ opacity: 0 }}
+                enter={{ opacity: 1 }}
+                leave={{ opacity: 0 }}
+            >
+                {show =>
+                    show &&
+                    (props => (
+                        <Bar
+                            style={props}
+                            width={constrain(fraction, 0, 1) * BAR_WIDTH}
+                        />
+                    ))
+                }
+            </Transition>
         </Wrapper>
     );
 };

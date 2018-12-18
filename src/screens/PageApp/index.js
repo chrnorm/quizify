@@ -114,14 +114,13 @@ class PageApp extends Component {
                     }
                 />
                 <S.CountdownWrapper>
-                    {this.state.allowedToAnswer ? (
-                        <CountdownBar
-                            fraction={
-                                this.state.timeRemaining /
-                                this.props.score.timePerQuestion
-                            }
-                        />
-                    ) : null}
+                    <CountdownBar
+                        fraction={
+                            this.state.timeRemaining /
+                            this.props.score.timePerQuestion
+                        }
+                        show={this.state.allowedToAnswer}
+                    />
                 </S.CountdownWrapper>
                 <TrackGrid
                     displayingAnswer={this.state.displayingAnswer}
