@@ -3,8 +3,12 @@ import styled from 'styled-components';
 import { Text } from 'rebass';
 import { Link } from 'react-router-dom';
 
+const LogoText = styled(Text)`
+    letter-spacing: -0.02em;
+`;
+
 export const QuizifyLogo = () => (
-    <Text
+    <LogoText
         fontFamily="logo"
         fontSize={7}
         color="brandBlue.0"
@@ -13,10 +17,10 @@ export const QuizifyLogo = () => (
         as={'h1'}
     >
         Quizify
-    </Text>
+    </LogoText>
 );
 
-const WatermarkText = styled(Text)`
+const WatermarkText = styled(LogoText)`
     position: absolute;
     bottom: 20px;
     left: 20px;
