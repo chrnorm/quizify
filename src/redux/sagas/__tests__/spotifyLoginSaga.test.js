@@ -1,10 +1,10 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { replace } from 'react-router-redux';
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE } from '../reducers';
-import Saga from './spotifyLoginSaga';
+import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE } from '../../reducers';
+import Saga from '../spotifyLoginSaga';
 
-import { spotifyLoginApi, stateToken } from '../../util/spotifyLogin';
+import { spotifyLoginApi, stateToken } from '../../../util/spotifyLogin';
 
 const fakeLoginUrl =
     'https://accounts.spotify.com/en/authorize?' +
