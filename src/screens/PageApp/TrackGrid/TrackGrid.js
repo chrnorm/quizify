@@ -11,8 +11,8 @@ const TracksWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 660px;
-    height: 440px;
+    width: 640px;
+    height: 420px;
     transition: all 0.1s ease;
 `;
 
