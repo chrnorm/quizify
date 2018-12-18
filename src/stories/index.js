@@ -1,22 +1,18 @@
 import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { withKnobs, number } from '@storybook/addon-knobs';
 
-import { storiesOf, addDecorator } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
+import CountdownBar from '../components/CountdownBar/CountdownBar';
 
-import Button from '../components/Button/Button';
-import Answer from '../screens/PageApp/Answer/Answer';
-import GradientBackground from '../components/GradientBackground/GradientBackground';
+const countdownStories = storiesOf('CountdownBar', module);
+countdownStories.addDecorator(withKnobs);
 
-import { SAMPLE_TRACKS } from '../util/mockData';
-import '../index.css';
-
-// add gradient background to all stories
-addDecorator(story => <GradientBackground>{story()}</GradientBackground>);
-
-storiesOf('Button', module).add('basic', () => (
-    <Button onClick={action('clicked')}>Basic Button</Button>
-));
-
-storiesOf('Answer', module).add('Correct', () => (
-    <Answer correctAnswer={true} correctTrack={SAMPLE_TRACKS[0]} />
-));
+countdownStories.add('Default', () => {
+    const fraction = number('Fraction', 1, {
+        range: true,
+        min: 0,
+        max: 1,
+        step: 0.1
+    });
+    return <CountdownBar fraction={fraction} />;
+});
