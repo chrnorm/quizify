@@ -13,6 +13,7 @@ import {
 } from '../../redux/reducers';
 import { connect } from 'react-redux';
 import * as S from './styles';
+import CountdownBar from '../../components/CountdownBar/CountdownBar';
 
 const SECONDS_PER_QUESTION = 15;
 
@@ -112,6 +113,15 @@ class PageApp extends Component {
                         this.state.displayingAnswer
                     }
                 />
+                <S.CountdownWrapper>
+                    {this.state.allowedToAnswer ? (
+                        <CountdownBar
+                            fraction={
+                                this.state.timeRemaining / SECONDS_PER_QUESTION
+                            }
+                        />
+                    ) : null}
+                </S.CountdownWrapper>
                 <TrackGrid
                     displayingAnswer={this.state.displayingAnswer}
                     tracks={this.props.question.tracks}

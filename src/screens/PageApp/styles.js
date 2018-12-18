@@ -6,3 +6,10 @@ export const ScoreWrapper = styled.div`
     left: 50%;
     transform: translateX(-50%);
 `;
+
+export const CountdownWrapper = styled.div`
+    position: absolute;
+    top: 220px;
+    left: 50%;
+    transform: translateX(-50%);
+`;
