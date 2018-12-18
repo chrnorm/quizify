@@ -13,6 +13,13 @@ const TextWithFadeIn = withDelayedFadeIn(S.ResultsText, 50);
 const ShareButtonWithFadeIn = withDelayedFadeIn(animated.div, 2000);
 const TryAgainButtonWithFadeIn = withDelayedFadeIn(S.TryAgain, 2250);
 
+const share = score => {
+    const shareText = `How well do you know your Spotify library? I just scored ${score} in Quizify!`;
+    window.open(
+        `http://twitter.com/share?text=${shareText}&url=https://quizify.app`
+    );
+};
+
 class PageResults extends Component {
     render() {
         return (
@@ -31,7 +38,11 @@ class PageResults extends Component {
                     </TextWithFadeIn>
                     <S.ResultsButtons>
                         <ShareButtonWithFadeIn>
-                            <Button>Share Your Score</Button>
+                            <Button
+                                onClick={() => share(this.props.score.points)}
+                            >
+                                Share Your Score
+                            </Button>
                         </ShareButtonWithFadeIn>
                         <TryAgainButtonWithFadeIn>
                             <Link to="/app" style={{ textDecoration: 'none' }}>
